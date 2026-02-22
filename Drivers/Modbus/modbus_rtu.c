@@ -9,7 +9,9 @@
  * - Robust CRC16 implementation.
  * - Non-blocking State Machine.
  * - Hardware RS485 flow control (DE) via UART configuration.
- * - T3.5 character timeout via TIM6 (or similar basic timer).
+ * - T3.5 character timeout via TIM6.
+ * - Support for FC03, FC06, FC16.
+ * - Diagnostic counters for reliability monitoring.
  */
 
 #include "modbus_rtu.h"
@@ -22,11 +24,12 @@
 static uint16_t Modbus_CRC16(uint8_t *buffer, uint16_t length);
 static void Modbus_Send(Modbus_Handle_t *hmodbus, uint16_t length);
 static void Modbus_SendException(Modbus_Handle_t *hmodbus, uint8_t func, uint8_t exc);
+static void Modbus_Restart_RX(Modbus_Handle_t *hmodbus);
 
 /* ================================================================================== */
 /*                                 CRC16 LOOKUP TABLE                                 */
 /* ================================================================================== */
-// Standard Modbus CRC16 Table
+// Standard Modbus CRC16 Table (Polynomial 0xA001)
 static const uint16_t crc16_table[256] = {
     0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241, 0xC601, 0x06C0, 0x0780, 0xC741,
     0x0500, 0xC5C1, 0xC481, 0x0440, 0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
@@ -54,6 +57,7 @@ static const uint16_t crc16_table[256] = {
 
 /**
  * @brief Calculate CRC16 for Modbus
+ * @details Iterates through the buffer, updating the CRC using the lookup table.
  */
 static uint16_t Modbus_CRC16(uint8_t *buffer, uint16_t length) {
     uint8_t temp;
@@ -65,11 +69,26 @@ static uint16_t Modbus_CRC16(uint8_t *buffer, uint16_t length) {
     return crc;
 }
 
+/**
+ * @brief Safely restart RX at buffer[0]
+ */
+static void Modbus_Restart_RX(Modbus_Handle_t *hmodbus) {
+    // Abort current reception to clear hardware pointer state
+    HAL_UART_AbortReceive(hmodbus->huart);
+    // Reset Index
+    hmodbus->rx_index = 0;
+    // Restart pointing to 0
+    HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[0], 1);
+}
+
 /* ================================================================================== */
 /*                                    CORE FUNCTIONS                                  */
 /* ================================================================================== */
 
 void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id) {
+    // Clear the struct to avoid garbage data
+    memset(hmodbus, 0, sizeof(Modbus_Handle_t));
+
     hmodbus->huart = huart;
     hmodbus->htim  = htim;
     hmodbus->slave_id = slave_id;
@@ -77,13 +96,17 @@ void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_Handle
     hmodbus->state = MB_STATE_IDLE;
     hmodbus->frame_complete = false;
 
-    // Start Listening (Interrupt mode, 1 byte at a time to catch every char)
+    // Start Listening (Interrupt mode, 1 byte at a time)
     HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[0], 1);
 }
 
 static void Modbus_Send(Modbus_Handle_t *hmodbus, uint16_t length) {
     // Hardware RS485 DE handles direction automatically via UART driver
-    HAL_UART_Transmit(hmodbus->huart, hmodbus->tx_buffer, length, 100);
+    if (HAL_UART_Transmit(hmodbus->huart, hmodbus->tx_buffer, length, 100) == HAL_OK) {
+        hmodbus->stats.tx_frames++;
+    } else {
+        hmodbus->stats.bus_errors++;
+    }
 }
 
 /* ================================================================================== */
@@ -96,6 +119,7 @@ HAL_StatusTypeDef Modbus_Master_Request(Modbus_Handle_t *hmodbus, uint8_t slave_
         return HAL_BUSY; // Communication in progress
     }
 
+    // Build Request Frame
     hmodbus->tx_buffer[0] = slave_id;
     hmodbus->tx_buffer[1] = func_code;
     hmodbus->tx_buffer[2] = (reg_addr >> 8) & 0xFF;
@@ -103,24 +127,61 @@ HAL_StatusTypeDef Modbus_Master_Request(Modbus_Handle_t *hmodbus, uint8_t slave_
     hmodbus->tx_buffer[4] = (reg_val >> 8) & 0xFF;
     hmodbus->tx_buffer[5] = reg_val & 0xFF;
 
+    // CRC
     uint16_t crc = Modbus_CRC16(hmodbus->tx_buffer, 6);
     hmodbus->tx_buffer[6] = crc & 0xFF;
     hmodbus->tx_buffer[7] = (crc >> 8) & 0xFF;
     hmodbus->tx_length = 8;
 
+    // State Update
     hmodbus->pending_func_code = func_code;
     hmodbus->state = MB_STATE_WAIT_RESPONSE;
     hmodbus->last_activity_timestamp = HAL_GetTick();
 
-    // Clear RX buffer for response
-    hmodbus->rx_index = 0;
+    // Prepare RX: Abort any pending noise reception and start fresh
+    Modbus_Restart_RX(hmodbus);
     hmodbus->frame_complete = false;
-    
-    // Start T3.5 timer logic is irrelevant for TX, but we need to ensure RX is ready
-    HAL_UART_Receive_IT(hmodbus->huart, hmodbus->rx_buffer, 1);
     
     Modbus_Send(hmodbus, hmodbus->tx_length);
     
+    return HAL_OK;
+}
+
+HAL_StatusTypeDef Modbus_Master_WriteMultiple(Modbus_Handle_t *hmodbus, uint8_t slave_id, uint16_t start_addr, uint16_t reg_count, uint16_t *data) {
+    if (hmodbus->state != MB_STATE_IDLE) return HAL_BUSY;
+
+    // FC16 Header
+    hmodbus->tx_buffer[0] = slave_id;
+    hmodbus->tx_buffer[1] = MB_FC_WRITE_MULTIPLE_REGISTERS;
+    hmodbus->tx_buffer[2] = (start_addr >> 8) & 0xFF;
+    hmodbus->tx_buffer[3] = start_addr & 0xFF;
+    hmodbus->tx_buffer[4] = (reg_count >> 8) & 0xFF;
+    hmodbus->tx_buffer[5] = reg_count & 0xFF;
+    hmodbus->tx_buffer[6] = (uint8_t)(reg_count * 2); // Byte Count
+
+    // Data Payload
+    for (uint16_t i = 0; i < reg_count; i++) {
+        hmodbus->tx_buffer[7 + i*2] = (data[i] >> 8) & 0xFF;
+        hmodbus->tx_buffer[8 + i*2] = data[i] & 0xFF;
+    }
+
+    uint16_t len = 7 + (reg_count * 2);
+    
+    // CRC
+    uint16_t crc = Modbus_CRC16(hmodbus->tx_buffer, len);
+    hmodbus->tx_buffer[len] = crc & 0xFF;
+    hmodbus->tx_buffer[len+1] = (crc >> 8) & 0xFF;
+    
+    hmodbus->tx_length = len + 2;
+    hmodbus->pending_func_code = MB_FC_WRITE_MULTIPLE_REGISTERS;
+    hmodbus->state = MB_STATE_WAIT_RESPONSE;
+    hmodbus->last_activity_timestamp = HAL_GetTick();
+
+    // Prepare RX
+    Modbus_Restart_RX(hmodbus);
+    hmodbus->frame_complete = false;
+
+    Modbus_Send(hmodbus, hmodbus->tx_length);
     return HAL_OK;
 }
 
@@ -129,11 +190,14 @@ Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
         // Check Timeout
         if ((HAL_GetTick() - hmodbus->last_activity_timestamp) > MODBUS_RESPONSE_TIMEOUT_MS) {
             hmodbus->state = MB_STATE_IDLE;
+            hmodbus->stats.timeouts++;
+            if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TIMEOUT);
             return MB_ERROR_TIMEOUT;
         }
 
         if (hmodbus->frame_complete) {
             hmodbus->frame_complete = false;
+            hmodbus->stats.rx_frames++;
             
             // Validate CRC
             if (hmodbus->rx_index < 4) return MB_ERROR_TRANSMIT; // Too short
@@ -142,23 +206,32 @@ Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
             
             if (received_crc != calculated_crc) {
                 hmodbus->state = MB_STATE_IDLE;
+                hmodbus->stats.crc_errors++;
+                if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_CRC);
+                Modbus_Restart_RX(hmodbus); // Critical to clean buffer
                 return MB_ERROR_CRC;
             }
 
-            // Check Exception
+            // Check Exception (MSB set)
             if (hmodbus->rx_buffer[1] & 0x80) {
                 hmodbus->state = MB_STATE_IDLE;
+                if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_EXCEPTION);
+                Modbus_Restart_RX(hmodbus);
                 return MB_ERROR_EXCEPTION;
             }
             
             // Check Function Code Match
             if (hmodbus->rx_buffer[1] != hmodbus->pending_func_code) {
                  hmodbus->state = MB_STATE_IDLE;
+                 Modbus_Restart_RX(hmodbus);
                  return MB_ERROR_TRANSMIT;
             }
 
             // Success
             hmodbus->state = MB_STATE_IDLE;
+            if (hmodbus->master_complete_cb) hmodbus->master_complete_cb();
+            
+            Modbus_Restart_RX(hmodbus); // Ready for next request
             return MB_ERROR_NONE;
         }
     }
@@ -187,11 +260,11 @@ static void Modbus_SendException(Modbus_Handle_t *hmodbus, uint8_t func, uint8_t
 void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint16_t map_size) {
     if (hmodbus->frame_complete) {
         hmodbus->frame_complete = false;
+        hmodbus->stats.rx_frames++;
 
         // 1. Minimum Length Check
         if (hmodbus->rx_index < 4) {
-            hmodbus->rx_index = 0;
-            // HAL_UART_Receive_IT called in IRQ
+            Modbus_Restart_RX(hmodbus);
             return;
         }
 
@@ -200,26 +273,29 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
         uint16_t calculated_crc = Modbus_CRC16(hmodbus->rx_buffer, hmodbus->rx_index - 2);
 
         if (received_crc != calculated_crc) {
-            // Silent drop on CRC error (standard Modbus behavior)
-            hmodbus->rx_index = 0;
-            return;
+            hmodbus->stats.crc_errors++;
+            Modbus_Restart_RX(hmodbus);
+            return; // Silent Drop
         }
 
         // 3. Slave ID Check
         if (hmodbus->rx_buffer[0] != hmodbus->slave_id) {
-            hmodbus->rx_index = 0;
-            return;
+            Modbus_Restart_RX(hmodbus);
+            return; // Not for me
         }
 
         // 4. Parse PDU
         uint8_t func_code = hmodbus->rx_buffer[1];
         uint16_t start_addr = (hmodbus->rx_buffer[2] << 8) | hmodbus->rx_buffer[3];
-        uint16_t count_val  = (hmodbus->rx_buffer[4] << 8) | hmodbus->rx_buffer[5]; // Count for read, Value for write
+        uint16_t count_val  = (hmodbus->rx_buffer[4] << 8) | hmodbus->rx_buffer[5]; // Count for FC03/FC16, Value for FC06
 
         // 5. Handle Function Codes
         switch (func_code) {
             case MB_FC_READ_HOLDING_REGISTERS:
-                if (start_addr + count_val > map_size) {
+                // Check Address Bounds (Default + Callback)
+                if (start_addr + count_val > map_size || 
+                   (hmodbus->validate_addr_cb && !hmodbus->validate_addr_cb(start_addr))) 
+                {
                     Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_ADDR);
                 } else {
                     hmodbus->tx_buffer[0] = hmodbus->slave_id;
@@ -241,19 +317,60 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                 break;
 
             case MB_FC_WRITE_SINGLE_REGISTER:
-                if (start_addr >= map_size) {
+                if (start_addr >= map_size ||
+                   (hmodbus->validate_addr_cb && !hmodbus->validate_addr_cb(start_addr)))
+                {
                     Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_ADDR);
                 } else {
                     // Update Register
-                    register_map[start_addr] = count_val; // Value is in count_val position
+                    register_map[start_addr] = count_val;
                     
-                    // Callback if needed
+                    // Trigger Callback
                     if (hmodbus->write_reg_cb) {
                         hmodbus->write_reg_cb(start_addr, count_val);
                     }
 
                     // Echo Response
-                    Modbus_Send(hmodbus, 8); // Request and response are identical for FC06
+                    Modbus_Send(hmodbus, 8); 
+                }
+                break;
+
+            case MB_FC_WRITE_MULTIPLE_REGISTERS:
+                {
+                    uint16_t reg_count = count_val;
+                    uint8_t byte_count = hmodbus->rx_buffer[6];
+                    
+                    if (start_addr + reg_count > map_size ||
+                       (hmodbus->validate_addr_cb && !hmodbus->validate_addr_cb(start_addr)))
+                    {
+                        Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_ADDR);
+                    } else if (byte_count != reg_count * 2) {
+                        Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_VALUE);
+                    } else {
+                        // Write Loop
+                        for (uint16_t i = 0; i < reg_count; i++) {
+                            uint16_t val = (hmodbus->rx_buffer[7 + i*2] << 8) | hmodbus->rx_buffer[8 + i*2];
+                            register_map[start_addr + i] = val;
+                            
+                            // Optional: Trigger callback for each reg or once at end?
+                            // Let's do it for each to be consistent
+                            if (hmodbus->write_reg_cb) hmodbus->write_reg_cb(start_addr + i, val);
+                        }
+                        
+                        // Response: SlaveID, FC, AddrHi, AddrLo, CountHi, CountLo, CRC
+                        hmodbus->tx_buffer[0] = hmodbus->slave_id;
+                        hmodbus->tx_buffer[1] = func_code;
+                        hmodbus->tx_buffer[2] = (start_addr >> 8) & 0xFF;
+                        hmodbus->tx_buffer[3] = start_addr & 0xFF;
+                        hmodbus->tx_buffer[4] = (reg_count >> 8) & 0xFF;
+                        hmodbus->tx_buffer[5] = reg_count & 0xFF;
+                        
+                        uint16_t crc = Modbus_CRC16(hmodbus->tx_buffer, 6);
+                        hmodbus->tx_buffer[6] = crc & 0xFF;
+                        hmodbus->tx_buffer[7] = (crc >> 8) & 0xFF;
+                        
+                        Modbus_Send(hmodbus, 8);
+                    }
                 }
                 break;
 
@@ -262,9 +379,8 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                 break;
         }
         
-        // Reset
-        hmodbus->rx_index = 0;
-        // Re-enable RX interrupt is handled in RxCplt logic or continuously running
+        // Critical: Reset Buffer and Restart Interrupt for next Frame
+        Modbus_Restart_RX(hmodbus);
     }
 }
 
@@ -275,17 +391,20 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 /* ================================================================================== */
 
 void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus) {
-    // 1. Reset T3.5 Timer
+    // 1. Reset T3.5 Timer (We received a byte, so the frame is still ongoing)
     __HAL_TIM_SET_COUNTER(hmodbus->htim, 0);
     HAL_TIM_Base_Start_IT(hmodbus->htim);
 
     // 2. Store Byte
     hmodbus->rx_index++;
+    
+    // 3. Overflow Protection
     if (hmodbus->rx_index >= MODBUS_MAX_ADU_SIZE) {
-        hmodbus->rx_index = 0; // Buffer overflow protection
+        hmodbus->rx_index = 0; // Wrap around to prevent crash, CRC will fail later
+        hmodbus->stats.bus_errors++;
     }
 
-    // 3. Listen for next byte
+    // 4. Listen for next byte
     HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[hmodbus->rx_index], 1);
 }
 
