@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Project",
+            "type": "shell",
+            "command": "ninja",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "group": "build",
+            "problemMatcher": ["$gcc"]
+        },
+        {
+            "label": "Flash via DFU (USB)",
+            "type": "shell",
+            "command": "E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/STM32CubeProgrammer/bin/STM32_Programmer_CLI.exe",
+            "args": [
+                "-c", "port=USB1",
+                "-w", "${workspaceFolder}/build/Studienarbeit_Kommunikation.bin", "0x08000000",
+                "-v",
+                "-rst"
+            ],
+            "dependsOn": "Build Project",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

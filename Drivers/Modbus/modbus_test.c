@@ -32,13 +32,11 @@ static uint16_t Test_CRC16(uint8_t *buffer, uint16_t length) {
 
 // Function to run the test
 void Modbus_RunSelfTest(void) {
-    printf("--- Starting Modbus Self-Test ---
-");
+    printf("--- Starting Modbus Self-Test ---\n");
 
     // 1. Initialize
     Modbus_Init(&hmodbus_test, &huart_test, &htim_test, 1); // Slave ID 1
-    printf("[PASS] Initialization
-");
+    printf("[PASS] Initialization\n");
 
     // 2. Simulate Receiving a Valid Read Request (FC03)
     // Request: Slave 1, FC 03, Start 0x0000, Count 2, CRC
@@ -60,15 +58,11 @@ void Modbus_RunSelfTest(void) {
         hmodbus_test.tx_buffer[2] == 0x04 &&
         hmodbus_test.tx_buffer[3] == 0x11 && hmodbus_test.tx_buffer[4] == 0x11 &&
         hmodbus_test.tx_buffer[5] == 0x22 && hmodbus_test.tx_buffer[6] == 0x22) {
-        printf("[PASS] Slave Response Logic (FC03)
-");
+        printf("[PASS] Slave Response Logic (FC03)\n");
     } else {
-        printf("[FAIL] Slave Response Logic (FC03)
-");
-        printf("Expected: 01 03 04 11 11 22 22 ...
-");
-        printf("Actual:   %02X %02X %02X %02X %02X %02X %02X
-", 
+        printf("[FAIL] Slave Response Logic (FC03)\n");
+        printf("Expected: 01 03 04 11 11 22 22 ...\n");
+        printf("Actual:   %02X %02X %02X %02X %02X %02X %02X\n", 
                hmodbus_test.tx_buffer[0], hmodbus_test.tx_buffer[1], hmodbus_test.tx_buffer[2],
                hmodbus_test.tx_buffer[3], hmodbus_test.tx_buffer[4], hmodbus_test.tx_buffer[5], hmodbus_test.tx_buffer[6]);
     }
@@ -76,13 +70,10 @@ void Modbus_RunSelfTest(void) {
     // 5. Test CRC Calculation
     uint16_t crc = Test_CRC16(request, 6);
     if (crc == 0x0BC4) { // Little Endian C4 0B
-        printf("[PASS] CRC Calculation matches expected 0x0BC4
-");
+        printf("[PASS] CRC Calculation matches expected 0x0BC4\n");
     } else {
-        printf("[FAIL] CRC Calculation: Got %04X, Expected 0x0BC4
-", crc);
+        printf("[FAIL] CRC Calculation: Got %04X, Expected 0x0BC4\n", crc);
     }
 
-    printf("--- Test Complete ---
-");
+    printf("--- Test Complete ---\n");
 }
