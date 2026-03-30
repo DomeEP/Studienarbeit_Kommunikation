@@ -138,11 +138,11 @@ HAL_StatusTypeDef Modbus_Master_Request(Modbus_Handle_t *hmodbus, uint8_t slave_
     hmodbus->state = MB_STATE_WAIT_RESPONSE;
     hmodbus->last_activity_timestamp = HAL_GetTick();
 
-    // Prepare RX: Abort any pending noise reception and start fresh
-    Modbus_Restart_RX(hmodbus);
     hmodbus->frame_complete = false;
-    
     Modbus_Send(hmodbus, hmodbus->tx_length);
+    
+    // Erwarte Antwort: Erst NACHDEM gesendet wurde den RX starten, um eigenes Echo zu vermeiden!
+    Modbus_Restart_RX(hmodbus);
     
     return HAL_OK;
 }
@@ -177,64 +177,73 @@ HAL_StatusTypeDef Modbus_Master_WriteMultiple(Modbus_Handle_t *hmodbus, uint8_t 
     hmodbus->state = MB_STATE_WAIT_RESPONSE;
     hmodbus->last_activity_timestamp = HAL_GetTick();
 
-    // Prepare RX
-    Modbus_Restart_RX(hmodbus);
     hmodbus->frame_complete = false;
-
     Modbus_Send(hmodbus, hmodbus->tx_length);
+    
+    // Erwarte Antwort: Erst NACHDEM gesendet wurde den RX starten, um eigenes Echo zu vermeiden!
+    Modbus_Restart_RX(hmodbus);
+    
     return HAL_OK;
 }
 
 Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
+    // 1. Wenn wir noch auf die Antwort warten (Timeout-Überwachung)
     if (hmodbus->state == MB_STATE_WAIT_RESPONSE) {
-        // Check Timeout
         if ((HAL_GetTick() - hmodbus->last_activity_timestamp) > MODBUS_RESPONSE_TIMEOUT_MS) {
             hmodbus->state = MB_STATE_IDLE;
             hmodbus->stats.timeouts++;
             if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TIMEOUT);
             return MB_ERROR_TIMEOUT;
         }
-
-        if (hmodbus->frame_complete) {
-            hmodbus->frame_complete = false;
-            hmodbus->stats.rx_frames++;
-            
-            // Validate CRC
-            if (hmodbus->rx_index < 4) return MB_ERROR_TRANSMIT; // Too short
-            uint16_t received_crc = hmodbus->rx_buffer[hmodbus->rx_index - 2] | (hmodbus->rx_buffer[hmodbus->rx_index - 1] << 8);
-            uint16_t calculated_crc = Modbus_CRC16(hmodbus->rx_buffer, hmodbus->rx_index - 2);
-            
-            if (received_crc != calculated_crc) {
-                hmodbus->state = MB_STATE_IDLE;
-                hmodbus->stats.crc_errors++;
-                if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_CRC);
-                Modbus_Restart_RX(hmodbus); // Critical to clean buffer
-                return MB_ERROR_CRC;
-            }
-
-            // Check Exception (MSB set)
-            if (hmodbus->rx_buffer[1] & 0x80) {
-                hmodbus->state = MB_STATE_IDLE;
-                if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_EXCEPTION);
-                Modbus_Restart_RX(hmodbus);
-                return MB_ERROR_EXCEPTION;
-            }
-            
-            // Check Function Code Match
-            if (hmodbus->rx_buffer[1] != hmodbus->pending_func_code) {
-                 hmodbus->state = MB_STATE_IDLE;
-                 Modbus_Restart_RX(hmodbus);
-                 return MB_ERROR_TRANSMIT;
-            }
-
-            // Success
-            hmodbus->state = MB_STATE_IDLE;
-            if (hmodbus->master_complete_cb) hmodbus->master_complete_cb();
-            
-            Modbus_Restart_RX(hmodbus); // Ready for next request
-            return MB_ERROR_NONE;
-        }
     }
+    
+    // 2. Wenn der Timer übergelaufen ist und das Paket komplett empfangen wurde
+    if (hmodbus->state == MB_STATE_PROCESSING && hmodbus->frame_complete) {
+        hmodbus->frame_complete = false;
+        hmodbus->stats.rx_frames++;
+        
+        // Validate CRC
+        if (hmodbus->rx_index < 4) {
+             hmodbus->state = MB_STATE_IDLE;
+             if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TRANSMIT);
+             Modbus_Restart_RX(hmodbus);
+             return MB_ERROR_TRANSMIT; // Too short (typically noise from RS485 turnaround)
+        }
+        uint16_t received_crc = hmodbus->rx_buffer[hmodbus->rx_index - 2] | (hmodbus->rx_buffer[hmodbus->rx_index - 1] << 8);
+        uint16_t calculated_crc = Modbus_CRC16(hmodbus->rx_buffer, hmodbus->rx_index - 2);
+        
+        if (received_crc != calculated_crc) {
+            hmodbus->state = MB_STATE_IDLE;
+            hmodbus->stats.crc_errors++;
+            if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_CRC);
+            Modbus_Restart_RX(hmodbus); // Critical to clean buffer
+            return MB_ERROR_CRC;
+        }
+
+        // Check Exception (MSB set)
+        if (hmodbus->rx_buffer[1] & 0x80) {
+            hmodbus->state = MB_STATE_IDLE;
+            if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_EXCEPTION);
+            Modbus_Restart_RX(hmodbus);
+            return MB_ERROR_EXCEPTION;
+        }
+        
+        // Check Function Code Match
+        if (hmodbus->rx_buffer[1] != hmodbus->pending_func_code) {
+             hmodbus->state = MB_STATE_IDLE;
+             if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TRANSMIT);
+             Modbus_Restart_RX(hmodbus);
+             return MB_ERROR_TRANSMIT;
+        }
+
+        // Success
+        hmodbus->state = MB_STATE_IDLE;
+        if (hmodbus->master_complete_cb) hmodbus->master_complete_cb();
+        
+        Modbus_Restart_RX(hmodbus); // Ready for next request
+        return MB_ERROR_NONE;
+    }
+    
     return MB_ERROR_NONE;
 }
 
@@ -330,7 +339,10 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                         hmodbus->write_reg_cb(start_addr, count_val);
                     }
 
-                    // Echo Response
+                    // Echo Response (kopiert exakt das empfangene Kommando als Antwort)
+                    for (int i = 0; i < 8; i++) {
+                        hmodbus->tx_buffer[i] = hmodbus->rx_buffer[i];
+                    }
                     Modbus_Send(hmodbus, 8); 
                 }
                 break;
@@ -413,4 +425,24 @@ void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus) {
     HAL_TIM_Base_Stop_IT(hmodbus->htim);
     hmodbus->frame_complete = true;
     hmodbus->state = MB_STATE_PROCESSING;
+}
+
+void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus) {
+    if (hmodbus->huart->ErrorCode != HAL_UART_ERROR_NONE) {
+        // Clear all UART errors
+        __HAL_UART_CLEAR_OREFLAG(hmodbus->huart);
+        __HAL_UART_CLEAR_NEFLAG(hmodbus->huart);
+        __HAL_UART_CLEAR_FEFLAG(hmodbus->huart);
+        
+        // Abort RX safely
+        HAL_UART_AbortReceive_IT(hmodbus->huart);
+        
+        hmodbus->stats.bus_errors++;
+        
+        // Restart listening immediately
+        if (hmodbus->state == MB_STATE_RX) {
+            hmodbus->state = MB_STATE_IDLE; // Reset if we were receiving
+        }
+        Modbus_Restart_RX(hmodbus);
+    }
 }

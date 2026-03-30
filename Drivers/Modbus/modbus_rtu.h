@@ -34,7 +34,7 @@
 #define MODBUS_MAX_ADU_SIZE   256
 
 // Timeout Settings (in Milliseconds)
-#define MODBUS_RESPONSE_TIMEOUT_MS 1000  // Master waits 1s for Slave response
+#define MODBUS_RESPONSE_TIMEOUT_MS 100  // Schneller Timeout (für 10Hz Polling ideal)
 
 /* ================================================================================== */
 /*                                 DEFINITIONS                                        */
@@ -177,16 +177,9 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 /* ================================================================================== */
 /*                             INTERRUPT HANDLERS                                     */
 /* ================================================================================== */
-// CRITICAL: Call these from stm32g4xx_it.c
-
-/**
- * @brief Call inside HAL_UART_RxCpltCallback (or USARTx_IRQHandler)
- */
+// --- Interrupt Handlers (Call these from stm32g4xx_it.c) ---
 void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus);
-
-/**
- * @brief Call inside HAL_TIM_PeriodElapsedCallback (or TIMx_IRQHandler)
- */
 void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus);
+void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus);
 
 #endif /* MODBUS_RTU_H */

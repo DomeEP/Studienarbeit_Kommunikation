@@ -1,0 +1,122 @@
+﻿Change Dir: 'C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/build_master'
+
+Run Build Command(s): E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/Ninja/bin/ninja.exe -v
+[1/5] E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\main_master.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c
+FAILED: CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj 
+E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\main_master.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c:10:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc/tim.h:25:8: error: unknown type name 'TIM_HandleTypeDef'
+   25 | extern TIM_HandleTypeDef htim6;
+      |        ^~~~~~~~~~~~~~~~~
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c:12:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:93:5: error: unknown type name 'TIM_HandleTypeDef'
+   93 |     TIM_HandleTypeDef  *htim;       // Pointer to STM32 Timer Handle (for T3.5)
+      |     ^~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:143:71: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+  143 | void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id);
+      |                                                                       ^~~~~~~~~~~~~~~~~
+      |                                                                       I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c: In function 'main':
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/main_master.c:78:3: warning: implicit declaration of function 'Modbus_Init' [-Wimplicit-function-declaration]
+   78 |   Modbus_Init(&hmodbus, &huart2, &htim6, 0);
+      |   ^~~~~~~~~~~
+[2/5] E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\stm32g4xx_it.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c
+FAILED: CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj 
+E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\stm32g4xx_it.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c:27:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc/tim.h:25:8: error: unknown type name 'TIM_HandleTypeDef'
+   25 | extern TIM_HandleTypeDef htim6;
+      |        ^~~~~~~~~~~~~~~~~
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c:28:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:93:5: error: unknown type name 'TIM_HandleTypeDef'
+   93 |     TIM_HandleTypeDef  *htim;       // Pointer to STM32 Timer Handle (for T3.5)
+      |     ^~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:143:71: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+  143 | void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id);
+      |                                                                       ^~~~~~~~~~~~~~~~~
+      |                                                                       I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c: In function 'TIM6_DAC_IRQHandler':
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c:224:3: warning: implicit declaration of function 'HAL_TIM_IRQHandler'; did you mean 'HAL_EXTI_IRQHandler'? [-Wimplicit-function-declaration]
+  224 |   HAL_TIM_IRQHandler(&htim6);
+      |   ^~~~~~~~~~~~~~~~~~
+      |   HAL_EXTI_IRQHandler
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c: At top level:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/stm32g4xx_it.c:241:36: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+  241 | void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+      |                                    ^~~~~~~~~~~~~~~~~
+      |                                    I2C_HandleTypeDef
+[3/5] E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\tim.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c
+FAILED: CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj 
+E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Core\Src\tim.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:22:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc/tim.h:25:8: error: unknown type name 'TIM_HandleTypeDef'
+   25 | extern TIM_HandleTypeDef htim6;
+      |        ^~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:28:1: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+   28 | TIM_HandleTypeDef htim6;
+      | ^~~~~~~~~~~~~~~~~
+      | I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c: In function 'MX_TIM6_Init':
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:40:8: error: request for member 'Instance' in something not a structure or union
+   40 |   htim6.Instance = TIM6;
+      |        ^
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:41:8: error: request for member 'Init' in something not a structure or union
+   41 |   htim6.Init.Prescaler = 15;
+      |        ^
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:42:8: error: request for member 'Init' in something not a structure or union
+   42 |   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+      |        ^
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:42:28: error: 'TIM_COUNTERMODE_UP' undeclared (first use in this function)
+   42 |   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+      |                            ^~~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:42:28: note: each undeclared identifier is reported only once for each function it appears in
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:43:8: error: request for member 'Init' in something not a structure or union
+   43 |   htim6.Init.Period = 1749;
+      |        ^
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:44:8: error: request for member 'Init' in something not a structure or union
+   44 |   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+      |        ^
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:44:34: error: 'TIM_AUTORELOAD_PRELOAD_DISABLE' undeclared (first use in this function)
+   44 |   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:45:7: warning: implicit declaration of function 'HAL_TIM_Base_Init' [-Wimplicit-function-declaration]
+   45 |   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+      |       ^~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c: At top level:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:54:27: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+   54 | void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
+      |                           ^~~~~~~~~~~~~~~~~
+      |                           I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Src/tim.c:73:29: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+   73 | void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
+      |                             ^~~~~~~~~~~~~~~~~
+      |                             I2C_HandleTypeDef
+[4/5] E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Drivers\Modbus\modbus_rtu.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c
+FAILED: CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj 
+E:\Programme\STI\STM32CubeCLT\STM32CubeCLT_1.20.0\GNU-tools-for-STM32\bin\arm-none-eabi-gcc.exe -DDEBUG -DSTM32G474xx -DUSE_HAL_DRIVER -DUSE_MODBUS -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Core/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Device/ST/STM32G4xx/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/CMSIS/Include -IC:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -fdata-sections -ffunction-sections -O0 -g3 -std=gnu11 -MD -MT CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj -MF CMakeFiles\Studienarbeit_Kommunikation.dir\Drivers\Modbus\modbus_rtu.c.obj.d -o CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj -c C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c
+In file included from C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c:17:
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:93:5: error: unknown type name 'TIM_HandleTypeDef'
+   93 |     TIM_HandleTypeDef  *htim;       // Pointer to STM32 Timer Handle (for T3.5)
+      |     ^~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.h:143:71: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+  143 | void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id);
+      |                                                                       ^~~~~~~~~~~~~~~~~
+      |                                                                       I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c:88:71: error: unknown type name 'TIM_HandleTypeDef'; did you mean 'I2C_HandleTypeDef'?
+   88 | void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id) {
+      |                                                                       ^~~~~~~~~~~~~~~~~
+      |                                                                       I2C_HandleTypeDef
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c: In function 'Modbus_IRQHandler_RxCplt':
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c:395:5: warning: implicit declaration of function '__HAL_TIM_SET_COUNTER' [-Wimplicit-function-declaration]
+  395 |     __HAL_TIM_SET_COUNTER(hmodbus->htim, 0);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c:396:5: warning: implicit declaration of function 'HAL_TIM_Base_Start_IT'; did you mean 'HAL_DMA_Start_IT'? [-Wimplicit-function-declaration]
+  396 |     HAL_TIM_Base_Start_IT(hmodbus->htim);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+      |     HAL_DMA_Start_IT
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c: In function 'Modbus_IRQHandler_Timeout':
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/Drivers/Modbus/modbus_rtu.c:413:5: warning: implicit declaration of function 'HAL_TIM_Base_Stop_IT' [-Wimplicit-function-declaration]
+  413 |     HAL_TIM_Base_Stop_IT(hmodbus->htim);
+      |     ^~~~~~~~~~~~~~~~~~~~
+ninja: build stopped: subcommand failed.
+

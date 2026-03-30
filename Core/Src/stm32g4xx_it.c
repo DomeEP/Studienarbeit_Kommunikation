@@ -22,6 +22,11 @@
 #include "stm32g4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#ifdef USE_MODBUS
+#include "usart.h"
+#include "tim.h"
+#include "modbus_rtu.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,7 +46,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+#ifdef USE_MODBUS
+extern Modbus_Handle_t hmodbus;
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -199,5 +206,55 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+
+#ifdef USE_MODBUS
+/**
+  * @brief This function handles USART2 global interrupt.
+  */
+void USART2_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart2);
+}
+
+/**
+  * @brief This function handles TIM6 global interrupt, DAC underrun error.
+  */
+void TIM6_DAC_IRQHandler(void)
+{
+  HAL_TIM_IRQHandler(&htim6);
+}
+
+/**
+  * @brief  Rx Transfer completed callback (called by HAL after each byte)
+  */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART2)
+  {
+    Modbus_IRQHandler_RxCplt(&hmodbus);
+  }
+}
+
+/**
+  * @brief  Period elapsed callback (called by HAL when TIM6 overflows = T3.5)
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  if (htim->Instance == TIM6)
+  {
+    Modbus_IRQHandler_Timeout(&hmodbus);
+  }
+}
+/**
+  * @brief  UART error callback (e.g. Overrun, Noise, Framing errors)
+  */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+  if (huart->Instance == USART2)
+  {
+    Modbus_IRQHandler_Error(&hmodbus);
+  }
+}
+#endif /* USE_MODBUS */
 
 /* USER CODE END 1 */

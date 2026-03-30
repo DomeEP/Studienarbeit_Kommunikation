@@ -1,0 +1,3 @@
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/build_master/CMakeFiles/Studienarbeit_Kommunikation.dir
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/build_master/CMakeFiles/edit_cache.dir
+C:/Users/doepp/OneDrive/Dokumente/1_DHBW/Studienarbeiten/Code/Studienarbeit_Kommunikation/build_master/CMakeFiles/rebuild_cache.dir

@@ -13,9 +13,34 @@ endif()
 
 set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
-# Source files
+# ============================================================================
+# BOARD_ROLE Selection: "master" or "slave"
+# USE_MODBUS: ON = Modbus-Firmware, OFF = Raw RS485 Test
+#
+# Beispiele:
+#   cmake -B build_master -DBOARD_ROLE=master -DUSE_MODBUS=OFF  (Raw-Test)
+#   cmake -B build_master -DBOARD_ROLE=master -DUSE_MODBUS=ON   (Modbus)
+# ============================================================================
+if(NOT BOARD_ROLE)
+    set(BOARD_ROLE "master" CACHE STRING "Board role: master or slave")
+endif()
+
+option(USE_MODBUS "Enable Modbus RTU protocol (OFF = raw RS485 test)" ON)
+
+message(STATUS ">>> BOARD_ROLE = ${BOARD_ROLE}")
+message(STATUS ">>> USE_MODBUS = ${USE_MODBUS}")
+
+if(BOARD_ROLE STREQUAL "master")
+    set(MAIN_SOURCE Core/Src/main_master.c)
+elseif(BOARD_ROLE STREQUAL "slave")
+    set(MAIN_SOURCE Core/Src/main_slave.c)
+else()
+    message(FATAL_ERROR "Invalid BOARD_ROLE '${BOARD_ROLE}'. Use 'master' or 'slave'.")
+endif()
+
+# Source files (immer benötigt)
 set(SOURCES
-    Core/Src/main.c
+    ${MAIN_SOURCE}
     Core/Src/gpio.c
     Core/Src/i2c.c
     Core/Src/usart.c
@@ -42,9 +67,17 @@ set(SOURCES
     Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c
     Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c
     startup_stm32g474xx.s
-    Drivers/Modbus/modbus_rtu.c
-    Drivers/Modbus/modbus_test.c
 )
+
+# Modbus-spezifische Dateien nur wenn USE_MODBUS=ON
+if(USE_MODBUS)
+    list(APPEND SOURCES
+        Core/Src/tim.c
+        Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c
+        Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c
+        Drivers/Modbus/modbus_rtu.c
+    )
+endif()
 
 # Include directories
 set(INCLUDES
@@ -60,17 +93,12 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE 
-    USE_HAL_DRIVER 
-    STM32G474xx
-    $<$<CONFIG:Debug>:DEBUG>
-)
-
-target_link_options(${PROJECT_NAME} PRIVATE
-    -T${CMAKE_SOURCE_DIR}/STM32G474XX_FLASH.ld
-    -Wl,--gc-sections
-    --specs=nano.specs
-)
+# Compile definitions
+set(COMPILE_DEFS USE_HAL_DRIVER STM32G474xx $<$<CONFIG:Debug>:DEBUG>)
+if(USE_MODBUS)
+    list(APPEND COMPILE_DEFS USE_MODBUS)
+endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE ${COMPILE_DEFS})
 
 # Post-build commands
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -78,5 +106,3 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX} ${PROJECT_NAME}.hex
     COMMAND ${CMAKE_SIZE} ${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}
 )
-
-
