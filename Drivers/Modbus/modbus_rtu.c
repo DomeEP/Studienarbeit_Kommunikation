@@ -73,12 +73,26 @@ static uint16_t Modbus_CRC16(uint8_t *buffer, uint16_t length) {
  * @brief Safely restart RX at buffer[0]
  */
 static void Modbus_Restart_RX(Modbus_Handle_t *hmodbus) {
-    // Abort current reception to clear hardware pointer state
+    // 1. Laufenden Empfang in der HAL abbrechen
     HAL_UART_AbortReceive(hmodbus->huart);
-    // Reset Index
+    
+    // 2. Hardware Error Flags und Idle Flag hart löschen (WICHTIG für STM32G4)
+    __HAL_UART_CLEAR_FLAG(hmodbus->huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_FEF | UART_CLEAR_PEF | UART_CLEAR_IDLEF);
+    
+    // 3. RX FIFO verwerfen (alles verwerfen, was evtl. hängen geblieben ist)
+    __HAL_UART_SEND_REQ(hmodbus->huart, UART_RXDATA_FLUSH_REQUEST);
+    
+    // 4. HAL Zustände bereinigen, damit ReceiveToIdle_IT nicht "HAL_BUSY" wirft
+    hmodbus->huart->ErrorCode = HAL_UART_ERROR_NONE;
+    hmodbus->huart->RxState = HAL_UART_STATE_READY;
+    hmodbus->huart->gState = HAL_UART_STATE_READY;
+    hmodbus->huart->Lock = HAL_UNLOCKED;
+    
+    // 5. Software-Index zurücksetzen
     hmodbus->rx_index = 0;
-    // Restart pointing to 0
-    HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[0], 1);
+    
+    // 6. Empfang starten (HARDWARE IDLE LINE DETECTION)
+    HAL_UARTEx_ReceiveToIdle_IT(hmodbus->huart, hmodbus->rx_buffer, MODBUS_MAX_ADU_SIZE);
 }
 
 /* ================================================================================== */
@@ -96,17 +110,33 @@ void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_Handle
     hmodbus->state = MB_STATE_IDLE;
     hmodbus->frame_complete = false;
 
-    // Start Listening (Interrupt mode, 1 byte at a time)
-    HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[0], 1);
+    // Start Listening (Hardware IDLE Line Mode)
+    HAL_UARTEx_ReceiveToIdle_IT(hmodbus->huart, hmodbus->rx_buffer, MODBUS_MAX_ADU_SIZE);
 }
 
 static void Modbus_Send(Modbus_Handle_t *hmodbus, uint16_t length) {
-    // Hardware RS485 DE handles direction automatically via UART driver
-    if (HAL_UART_Transmit(hmodbus->huart, hmodbus->tx_buffer, length, 100) == HAL_OK) {
-        hmodbus->stats.tx_frames++;
-    } else {
-        hmodbus->stats.bus_errors++;
+    // 1. Empfang abschalten (verhindert IRQ-Konflikte während TX)
+    HAL_UART_AbortReceive(hmodbus->huart);
+    
+    // 2. Error-Flags löschen und RX-Register flushen
+    __HAL_UART_CLEAR_FLAG(hmodbus->huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_FEF | UART_CLEAR_PEF);
+    __HAL_UART_SEND_REQ(hmodbus->huart, UART_RXDATA_FLUSH_REQUEST);
+    
+    // 3. Direct Register-Level Transmit
+    //    Umgeht HAL __HAL_LOCK() komplett → keine Race Conditions mehr!
+    //    Hardware RS485 DE wird automatisch von der USART-Peripherie gesteuert.
+    for (uint16_t i = 0; i < length; i++) {
+        // Warten bis Transmit Data Register leer ist (TXE/TXFNF)
+        while (!(hmodbus->huart->Instance->ISR & USART_ISR_TXE_TXFNF)) {}
+        hmodbus->huart->Instance->TDR = hmodbus->tx_buffer[i];
     }
+    
+    // 4. Warten bis das LETZTE Byte physisch die Leitung verlassen hat (TC Flag)
+    //    Erst wenn TC gesetzt ist, wird der DE-Pin von der Hardware auf LOW gezogen.
+    //    Ohne dieses Warten wird die Übertragung abgeschnitten!
+    while (!(hmodbus->huart->Instance->ISR & USART_ISR_TC)) {}
+    
+    hmodbus->stats.tx_frames++;
 }
 
 /* ================================================================================== */
@@ -187,28 +217,32 @@ HAL_StatusTypeDef Modbus_Master_WriteMultiple(Modbus_Handle_t *hmodbus, uint8_t 
 }
 
 Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
-    // 1. Wenn wir noch auf die Antwort warten (Timeout-Überwachung)
-    if (hmodbus->state == MB_STATE_WAIT_RESPONSE) {
+    // Timeout check — nur wenn wir warten UND noch kein Frame komplett ist
+    if (hmodbus->state == MB_STATE_WAIT_RESPONSE && !hmodbus->frame_complete) {
         if ((HAL_GetTick() - hmodbus->last_activity_timestamp) > MODBUS_RESPONSE_TIMEOUT_MS) {
             hmodbus->state = MB_STATE_IDLE;
             hmodbus->stats.timeouts++;
             if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TIMEOUT);
+            Modbus_Restart_RX(hmodbus);
             return MB_ERROR_TIMEOUT;
         }
+        return MB_ERROR_NONE; // Noch warten...
     }
     
-    // 2. Wenn der Timer übergelaufen ist und das Paket komplett empfangen wurde
-    if (hmodbus->state == MB_STATE_PROCESSING && hmodbus->frame_complete) {
+    // Frame komplett empfangen? (Kann in WAIT_RESPONSE oder PROCESSING state sein)
+    if (hmodbus->frame_complete) {
         hmodbus->frame_complete = false;
         hmodbus->stats.rx_frames++;
         
-        // Validate CRC
+        // Validate minimum length
         if (hmodbus->rx_index < 4) {
              hmodbus->state = MB_STATE_IDLE;
              if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_TRANSMIT);
              Modbus_Restart_RX(hmodbus);
-             return MB_ERROR_TRANSMIT; // Too short (typically noise from RS485 turnaround)
+             return MB_ERROR_TRANSMIT;
         }
+        
+        // Validate CRC
         uint16_t received_crc = hmodbus->rx_buffer[hmodbus->rx_index - 2] | (hmodbus->rx_buffer[hmodbus->rx_index - 1] << 8);
         uint16_t calculated_crc = Modbus_CRC16(hmodbus->rx_buffer, hmodbus->rx_index - 2);
         
@@ -216,7 +250,7 @@ Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
             hmodbus->state = MB_STATE_IDLE;
             hmodbus->stats.crc_errors++;
             if(hmodbus->error_cb) hmodbus->error_cb(MB_ERROR_CRC);
-            Modbus_Restart_RX(hmodbus); // Critical to clean buffer
+            Modbus_Restart_RX(hmodbus);
             return MB_ERROR_CRC;
         }
 
@@ -236,11 +270,27 @@ Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
              return MB_ERROR_TRANSMIT;
         }
 
-        // Success
+        // PDU verarbeiten (nur FC03 implementiert im Master für dieses Beispiel)
+        if (hmodbus->pending_func_code == MB_FC_READ_HOLDING_REGISTERS) {
+            // Für Simplicity: Wir schreiben den ersten erhaltenen Registerwert direkt in den RAM
+            // In einer echten Lib würde man pending_start_addr usw. tracken.
+            extern uint16_t register_map[]; 
+            
+            // Angenommen, wir lesen 2 Register (Wunsch & Emergency):
+            // rx_buffer[2] ist Byte-Count. rx_buffer[3/4] = Reg 1, rx_buffer[5/6] = Reg 2
+            register_map[0] = (hmodbus->rx_buffer[3] << 8) | hmodbus->rx_buffer[4];
+            
+            uint8_t byte_count = hmodbus->rx_buffer[2];
+            if (byte_count >= 4) {
+                register_map[1] = (hmodbus->rx_buffer[5] << 8) | hmodbus->rx_buffer[6];
+            }
+        }
+
+        // Success!
         hmodbus->state = MB_STATE_IDLE;
         if (hmodbus->master_complete_cb) hmodbus->master_complete_cb();
         
-        Modbus_Restart_RX(hmodbus); // Ready for next request
+        Modbus_Restart_RX(hmodbus);
         return MB_ERROR_NONE;
     }
     
@@ -263,6 +313,7 @@ static void Modbus_SendException(Modbus_Handle_t *hmodbus, uint8_t func, uint8_t
     hmodbus->tx_buffer[3] = crc & 0xFF;
     hmodbus->tx_buffer[4] = (crc >> 8) & 0xFF;
     
+    HAL_Delay(3); // RS485 Turnaround Delay
     Modbus_Send(hmodbus, 5);
 }
 
@@ -273,6 +324,7 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 
         // 1. Minimum Length Check
         if (hmodbus->rx_index < 4) {
+            hmodbus->state = MB_STATE_IDLE;
             Modbus_Restart_RX(hmodbus);
             return;
         }
@@ -283,12 +335,14 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 
         if (received_crc != calculated_crc) {
             hmodbus->stats.crc_errors++;
+            hmodbus->state = MB_STATE_IDLE;
             Modbus_Restart_RX(hmodbus);
             return; // Silent Drop
         }
 
         // 3. Slave ID Check
         if (hmodbus->rx_buffer[0] != hmodbus->slave_id) {
+            hmodbus->state = MB_STATE_IDLE;
             Modbus_Restart_RX(hmodbus);
             return; // Not for me
         }
@@ -296,12 +350,16 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
         // 4. Parse PDU
         uint8_t func_code = hmodbus->rx_buffer[1];
         uint16_t start_addr = (hmodbus->rx_buffer[2] << 8) | hmodbus->rx_buffer[3];
-        uint16_t count_val  = (hmodbus->rx_buffer[4] << 8) | hmodbus->rx_buffer[5]; // Count for FC03/FC16, Value for FC06
+        uint16_t count_val  = (hmodbus->rx_buffer[4] << 8) | hmodbus->rx_buffer[5];
+
+        // *** KRITISCH: RX-Empfang ABSCHALTEN bevor wir senden! ***
+        // Sonst empfängt der Slave sein eigenes Echo über den RS485-Bus
+        // und interpretiert es als neues Frame → Chaos!
+        HAL_UART_AbortReceive(hmodbus->huart);
 
         // 5. Handle Function Codes
         switch (func_code) {
             case MB_FC_READ_HOLDING_REGISTERS:
-                // Check Address Bounds (Default + Callback)
                 if (start_addr + count_val > map_size || 
                    (hmodbus->validate_addr_cb && !hmodbus->validate_addr_cb(start_addr))) 
                 {
@@ -321,6 +379,11 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                     hmodbus->tx_buffer[len] = crc & 0xFF;
                     hmodbus->tx_buffer[len+1] = (crc >> 8) & 0xFF;
                     
+                    /* KRITISCH: RS485 Turnaround Delay. 
+                     * Gibt dem isolierten ADM2587E des Masters Zeit, von TX auf RX umzuschalten.
+                     * Ohne diese Pause kollidiert unsere Antwort mit dem abfallenden DE-Signal des Masters! */
+                    HAL_Delay(100);
+                    
                     Modbus_Send(hmodbus, len + 2);
                 }
                 break;
@@ -331,18 +394,17 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                 {
                     Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_ADDR);
                 } else {
-                    // Update Register
                     register_map[start_addr] = count_val;
                     
-                    // Trigger Callback
                     if (hmodbus->write_reg_cb) {
                         hmodbus->write_reg_cb(start_addr, count_val);
                     }
 
-                    // Echo Response (kopiert exakt das empfangene Kommando als Antwort)
+                    // Echo Response
                     for (int i = 0; i < 8; i++) {
                         hmodbus->tx_buffer[i] = hmodbus->rx_buffer[i];
                     }
+                    HAL_Delay(3); // RS485 Turnaround Delay
                     Modbus_Send(hmodbus, 8); 
                 }
                 break;
@@ -359,17 +421,12 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                     } else if (byte_count != reg_count * 2) {
                         Modbus_SendException(hmodbus, func_code, MB_EX_ILLEGAL_DATA_VALUE);
                     } else {
-                        // Write Loop
                         for (uint16_t i = 0; i < reg_count; i++) {
                             uint16_t val = (hmodbus->rx_buffer[7 + i*2] << 8) | hmodbus->rx_buffer[8 + i*2];
                             register_map[start_addr + i] = val;
-                            
-                            // Optional: Trigger callback for each reg or once at end?
-                            // Let's do it for each to be consistent
                             if (hmodbus->write_reg_cb) hmodbus->write_reg_cb(start_addr + i, val);
                         }
                         
-                        // Response: SlaveID, FC, AddrHi, AddrLo, CountHi, CountLo, CRC
                         hmodbus->tx_buffer[0] = hmodbus->slave_id;
                         hmodbus->tx_buffer[1] = func_code;
                         hmodbus->tx_buffer[2] = (start_addr >> 8) & 0xFF;
@@ -381,6 +438,7 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                         hmodbus->tx_buffer[6] = crc & 0xFF;
                         hmodbus->tx_buffer[7] = (crc >> 8) & 0xFF;
                         
+                        HAL_Delay(3); // RS485 Turnaround Delay
                         Modbus_Send(hmodbus, 8);
                     }
                 }
@@ -391,7 +449,11 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
                 break;
         }
         
-        // Critical: Reset Buffer and Restart Interrupt for next Frame
+        // *** KRITISCH: State zurücksetzen und RX NACH dem Senden neu starten ***
+        // Damit fangen wir erst jetzt an zu empfangen, nachdem unsere Antwort
+        // komplett raus ist → kein Self-Echo!
+        hmodbus->state = MB_STATE_IDLE;
+        hmodbus->frame_complete = false;
         Modbus_Restart_RX(hmodbus);
     }
 }
@@ -402,47 +464,34 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 /*                             INTERRUPT HANDLERS                                     */
 /* ================================================================================== */
 
-void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus) {
-    // 1. Reset T3.5 Timer (We received a byte, so the frame is still ongoing)
-    __HAL_TIM_SET_COUNTER(hmodbus->htim, 0);
-    HAL_TIM_Base_Start_IT(hmodbus->htim);
-
-    // 2. Store Byte
-    hmodbus->rx_index++;
+// ----------------------------------------------------------------------------------
+// NEUE ROBUSTE EMPFANGSROUTINE VOR ÜBER STM32 HARDWARE IDLE DETECTION
+// ----------------------------------------------------------------------------------
+void Modbus_IRQHandler_RxEvent(Modbus_Handle_t *hmodbus, uint16_t Size)
+{
+    // Wenn Hardware IDLE (Lücke auf Bus) erkennt oder Buffer voll ist:
+    hmodbus->rx_index = Size; // Die Hardware sagt uns exakt, wie viele Bytes empfangen wurden!
     
-    // 3. Overflow Protection
-    if (hmodbus->rx_index >= MODBUS_MAX_ADU_SIZE) {
-        hmodbus->rx_index = 0; // Wrap around to prevent crash, CRC will fail later
-        hmodbus->stats.bus_errors++;
-    }
-
-    // 4. Listen for next byte
-    HAL_UART_Receive_IT(hmodbus->huart, &hmodbus->rx_buffer[hmodbus->rx_index], 1);
-}
-
-void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus) {
-    // T3.5 Expired -> Frame Complete
-    HAL_TIM_Base_Stop_IT(hmodbus->htim);
+    // Frame als komplett markieren
     hmodbus->frame_complete = true;
     hmodbus->state = MB_STATE_PROCESSING;
 }
 
-void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus) {
-    if (hmodbus->huart->ErrorCode != HAL_UART_ERROR_NONE) {
-        // Clear all UART errors
-        __HAL_UART_CLEAR_OREFLAG(hmodbus->huart);
-        __HAL_UART_CLEAR_NEFLAG(hmodbus->huart);
-        __HAL_UART_CLEAR_FEFLAG(hmodbus->huart);
-        
-        // Abort RX safely
-        HAL_UART_AbortReceive_IT(hmodbus->huart);
-        
-        hmodbus->stats.bus_errors++;
-        
-        // Restart listening immediately
-        if (hmodbus->state == MB_STATE_RX) {
-            hmodbus->state = MB_STATE_IDLE; // Reset if we were receiving
-        }
-        Modbus_Restart_RX(hmodbus);
-    }
+void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus) {
+    // VERALTET: Wir benutzen jetzt HAL_UARTEx_RxEventCallback für alles!
 }
+
+void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus) {
+    // VERALTET: Wir benutzen jetzt Hardware IDLE detection (HAL_UARTEx_RxEventCallback)!
+}
+
+void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus) {
+    // Hardware Error Flags löschen (damit UART weiterarbeiten kann)
+    __HAL_UART_CLEAR_FLAG(hmodbus->huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_FEF | UART_CLEAR_PEF);
+    hmodbus->huart->ErrorCode = HAL_UART_ERROR_NONE;
+    hmodbus->stats.bus_errors++;
+    
+    // Empfang sofort neu starten (mit Force-Reset)
+    Modbus_Restart_RX(hmodbus);
+}
+

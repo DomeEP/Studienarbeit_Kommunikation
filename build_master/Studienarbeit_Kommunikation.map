@@ -107,8 +107,6 @@ Discarded input sections
  .text          0x00000000        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .data          0x00000000        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .bss           0x00000000        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .data.last_btn_state
-                0x00000000        0x1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
@@ -464,7 +462,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x358 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_macro   0x00000000       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_macro   0x00000000       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_macro   0x00000000       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_macro   0x00000000       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .group         0x00000000        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
@@ -1958,6 +1956,10 @@ Discarded input sections
  .bss           0x00000000        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .text.HAL_GPIO_DeInit
                 0x00000000      0x1c4 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .text.HAL_GPIO_ReadPin
+                0x00000000       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .text.HAL_GPIO_TogglePin
+                0x00000000       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .text.HAL_GPIO_LockPin
                 0x00000000       0x50 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .text.HAL_GPIO_EXTI_IRQHandler
@@ -2814,10 +2816,14 @@ Discarded input sections
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_MspDeInit
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.HAL_UART_Transmit
+                0x00000000      0x132 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_Receive
                 0x00000000      0x1a0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_Transmit_IT
                 0x00000000      0x128 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.HAL_UART_Receive_IT
+                0x00000000       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_Transmit_DMA
                 0x00000000      0x100 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_Receive_DMA
@@ -2836,9 +2842,9 @@ Discarded input sections
                 0x00000000      0x268 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_AbortTransmit_IT
                 0x00000000      0x134 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.HAL_UART_AbortReceive_IT
+                0x00000000      0x18c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_TxHalfCpltCallback
-                0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .text.HAL_UART_RxCpltCallback
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_RxHalfCpltCallback
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
@@ -2848,6 +2854,10 @@ Discarded input sections
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_AbortTransmitCpltCallback
                 0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.HAL_UART_AbortReceiveCpltCallback
+                0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.HAL_UARTEx_RxEventCallback
+                0x00000000       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_ReceiverTimeout_Config
                 0x00000000       0x38 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_UART_EnableReceiverTimeout
@@ -2890,6 +2900,8 @@ Discarded input sections
                 0x00000000       0x70 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_DMATxOnlyAbortCallback
                 0x00000000       0x3e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .text.UART_DMARxOnlyAbortCallback
+                0x00000000       0x42 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_TxISR_8BIT
                 0x00000000       0xb8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_TxISR_16BIT
@@ -2995,8 +3007,6 @@ Discarded input sections
                 0x00000000       0x76 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .text.HAL_UARTEx_ReceiveToIdle
                 0x00000000      0x204 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .text.HAL_UARTEx_ReceiveToIdle_IT
-                0x00000000       0xa0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .text.HAL_UARTEx_ReceiveToIdle_DMA
                 0x00000000       0xa8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .text.HAL_UARTEx_GetRxEventType
@@ -3190,6 +3200,10 @@ Discarded input sections
                 0x00000000       0xe0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
  .text.HAL_TIM_Base_Stop
                 0x00000000       0x50 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .text.HAL_TIM_Base_Start_IT
+                0x00000000       0xf0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .text.HAL_TIM_Base_Stop_IT
+                0x00000000       0x60 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
  .text.HAL_TIM_Base_Start_DMA
                 0x00000000      0x154 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
  .text.HAL_TIM_Base_Stop_DMA
@@ -3717,9 +3731,11 @@ Discarded input sections
  .text.Modbus_Master_WriteMultiple
                 0x00000000      0x15a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .text.Modbus_SendException
-                0x00000000       0x6a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x00000000       0x70 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .text.Modbus_Slave_Listen
-                0x00000000      0x408 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x00000000      0x44c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .text.Modbus_IRQHandler_RxCplt
+                0x00000000       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000      0xade CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000      0x161 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000       0x2e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
@@ -3762,7 +3778,7 @@ Discarded input sections
  .debug_macro   0x00000000       0xa6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000      0x358 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_macro   0x00000000       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_macro   0x00000000       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000       0x2a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000       0x3c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_macro   0x00000000       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
@@ -4251,7 +4267,7 @@ LOAD E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/.
                 0x08000000                g_pfnVectors
                 0x080001d8                        . = ALIGN (0x4)
 
-.text           0x080001d8     0x5974
+.text           0x080001d8     0x54e0
                 0x080001d8                        . = ALIGN (0x4)
  *(.text)
  .text          0x080001d8       0x40 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
@@ -4263,546 +4279,523 @@ LOAD E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/.
                 0x08000540                __aeabi_idiv0
                 0x08000540                __aeabi_ldiv0
  *(.text*)
+ .text.led_on   0x08000544       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .text.led_off  0x0800055c       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .text.OnMasterComplete
-                0x08000544       0x8c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x08000544                OnMasterComplete
+                0x08000574       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x08000574                OnMasterComplete
  .text.OnMasterError
-                0x080005d0       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x080005d0                OnMasterError
- .text.main     0x080005f0      0x1b8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x080005f0                main
+                0x080005a8       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x080005a8                OnMasterError
+ .text.main     0x080005c8      0x16c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x080005c8                main
  .text.SystemClock_Config
-                0x080007a8       0x80 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x080007a8                SystemClock_Config
+                0x08000734       0x80 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x08000734                SystemClock_Config
  .text.Error_Handler
-                0x08000828        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x08000828                Error_Handler
+                0x080007b4        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x080007b4                Error_Handler
  .text.MX_GPIO_Init
-                0x08000834       0xf4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
-                0x08000834                MX_GPIO_Init
+                0x080007c0       0xf4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+                0x080007c0                MX_GPIO_Init
  .text.MX_I2C2_Init
-                0x08000928       0x80 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
-                0x08000928                MX_I2C2_Init
+                0x080008b4       0x80 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+                0x080008b4                MX_I2C2_Init
  .text.HAL_I2C_MspInit
-                0x080009a8       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
-                0x080009a8                HAL_I2C_MspInit
+                0x08000934       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+                0x08000934                HAL_I2C_MspInit
  .text.MX_USART2_UART_Init
-                0x08000a58       0xa0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
-                0x08000a58                MX_USART2_UART_Init
+                0x080009e4       0xa0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+                0x080009e4                MX_USART2_UART_Init
  .text.HAL_UART_MspInit
-                0x08000af8       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
-                0x08000af8                HAL_UART_MspInit
+                0x08000a84       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+                0x08000a84                HAL_UART_MspInit
  .text.NMI_Handler
-                0x08000ba8        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000ba8                NMI_Handler
+                0x08000b34        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b34                NMI_Handler
  .text.HardFault_Handler
-                0x08000bb0        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bb0                HardFault_Handler
+                0x08000b3c        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b3c                HardFault_Handler
  .text.MemManage_Handler
-                0x08000bb8        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bb8                MemManage_Handler
+                0x08000b44        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b44                MemManage_Handler
  .text.BusFault_Handler
-                0x08000bc0        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bc0                BusFault_Handler
+                0x08000b4c        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b4c                BusFault_Handler
  .text.UsageFault_Handler
-                0x08000bc8        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bc8                UsageFault_Handler
+                0x08000b54        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b54                UsageFault_Handler
  .text.SVC_Handler
-                0x08000bd0        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bd0                SVC_Handler
+                0x08000b5c        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b5c                SVC_Handler
  .text.DebugMon_Handler
-                0x08000bde        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bde                DebugMon_Handler
+                0x08000b6a        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b6a                DebugMon_Handler
  .text.PendSV_Handler
-                0x08000bec        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bec                PendSV_Handler
+                0x08000b78        0xe CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b78                PendSV_Handler
  .text.SysTick_Handler
-                0x08000bfa        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000bfa                SysTick_Handler
- *fill*         0x08000c06        0x2 
+                0x08000b86        0xc CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b86                SysTick_Handler
+ *fill*         0x08000b92        0x2 
  .text.USART2_IRQHandler
-                0x08000c08       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000c08                USART2_IRQHandler
+                0x08000b94       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000b94                USART2_IRQHandler
  .text.TIM6_DAC_IRQHandler
-                0x08000c1c       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000c1c                TIM6_DAC_IRQHandler
- .text.HAL_UART_RxCpltCallback
-                0x08000c30       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000c30                HAL_UART_RxCpltCallback
- .text.HAL_TIM_PeriodElapsedCallback
-                0x08000c58       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000c58                HAL_TIM_PeriodElapsedCallback
- .text.HAL_UART_ErrorCallback
-                0x08000c80       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                0x08000c80                HAL_UART_ErrorCallback
- .text.HAL_MspInit
-                0x08000ca8       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
-                0x08000ca8                HAL_MspInit
- .text.SystemInit
-                0x08000cf0       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
-                0x08000cf0                SystemInit
- .text.HAL_I2C_Init
-                0x08000d14      0x136 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
-                0x08000d14                HAL_I2C_Init
- .text.HAL_I2CEx_ConfigAnalogFilter
-                0x08000e4a       0x96 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
-                0x08000e4a                HAL_I2CEx_ConfigAnalogFilter
- .text.HAL_I2CEx_ConfigDigitalFilter
-                0x08000ee0       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
-                0x08000ee0                HAL_I2CEx_ConfigDigitalFilter
- .text.HAL_Init
-                0x08000f78       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x08000f78                HAL_Init
- .text.HAL_InitTick
-                0x08000fa8       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x08000fa8                HAL_InitTick
- .text.HAL_IncTick
-                0x0800101c       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x0800101c                HAL_IncTick
- .text.HAL_GetTick
-                0x08001040       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x08001040                HAL_GetTick
- .text.HAL_Delay
-                0x08001058       0x44 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x08001058                HAL_Delay
- .text.HAL_RCC_OscConfig
-                0x0800109c      0x624 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x0800109c                HAL_RCC_OscConfig
- .text.HAL_RCC_ClockConfig
-                0x080016c0      0x278 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x080016c0                HAL_RCC_ClockConfig
- .text.HAL_RCC_GetSysClockFreq
-                0x08001938       0xc4 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x08001938                HAL_RCC_GetSysClockFreq
- .text.HAL_RCC_GetHCLKFreq
-                0x080019fc       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x080019fc                HAL_RCC_GetHCLKFreq
- .text.HAL_RCC_GetPCLK1Freq
-                0x08001a14       0x2c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x08001a14                HAL_RCC_GetPCLK1Freq
- .text.HAL_RCC_GetPCLK2Freq
-                0x08001a40       0x2c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
-                0x08001a40                HAL_RCC_GetPCLK2Freq
- .text.RCC_GetSysClockFreqFromPLLSource
-                0x08001a6c       0x8c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .text.HAL_RCCEx_PeriphCLKConfig
-                0x08001af8      0x49c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
-                0x08001af8                HAL_RCCEx_PeriphCLKConfig
- .text.HAL_GPIO_Init
-                0x08001f94      0x318 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
-                0x08001f94                HAL_GPIO_Init
- .text.HAL_GPIO_ReadPin
-                0x080022ac       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
-                0x080022ac                HAL_GPIO_ReadPin
- .text.HAL_GPIO_WritePin
-                0x080022dc       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
-                0x080022dc                HAL_GPIO_WritePin
- .text.HAL_GPIO_TogglePin
-                0x0800230c       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
-                0x0800230c                HAL_GPIO_TogglePin
- .text.HAL_DMA_Abort
-                0x08002340       0xbc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
-                0x08002340                HAL_DMA_Abort
- .text.HAL_DMA_Abort_IT
-                0x080023fc       0xce CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
-                0x080023fc                HAL_DMA_Abort_IT
- .text.HAL_DMA_GetError
-                0x080024ca       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
-                0x080024ca                HAL_DMA_GetError
- *fill*         0x080024e2        0x2 
- .text.HAL_PWREx_ControlVoltageScaling
-                0x080024e4      0x148 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
-                0x080024e4                HAL_PWREx_ControlVoltageScaling
- .text.HAL_PWREx_DisableUCPDDeadBattery
-                0x0800262c       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
-                0x0800262c                HAL_PWREx_DisableUCPDDeadBattery
- .text.__NVIC_SetPriorityGrouping
-                0x0800264c       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .text.__NVIC_GetPriorityGrouping
-                0x08002694       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .text.__NVIC_EnableIRQ
-                0x080026b0       0x3c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .text.__NVIC_SetPriority
-                0x080026ec       0x54 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .text.NVIC_EncodePriority
-                0x08002740       0x66 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- *fill*         0x080027a6        0x2 
- .text.SysTick_Config
-                0x080027a8       0x44 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .text.HAL_NVIC_SetPriorityGrouping
-                0x080027ec       0x16 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
-                0x080027ec                HAL_NVIC_SetPriorityGrouping
- .text.HAL_NVIC_SetPriority
-                0x08002802       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
-                0x08002802                HAL_NVIC_SetPriority
- .text.HAL_NVIC_EnableIRQ
-                0x08002836       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
-                0x08002836                HAL_NVIC_EnableIRQ
- .text.HAL_SYSTICK_Config
-                0x08002852       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
-                0x08002852                HAL_SYSTICK_Config
- .text.HAL_UART_Transmit
-                0x0800286a      0x132 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x0800286a                HAL_UART_Transmit
- .text.HAL_UART_Receive_IT
-                0x0800299c       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x0800299c                HAL_UART_Receive_IT
- .text.HAL_UART_AbortReceive
-                0x08002a34      0x162 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08002a34                HAL_UART_AbortReceive
- *fill*         0x08002b96        0x2 
- .text.HAL_UART_AbortReceive_IT
-                0x08002b98      0x18c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08002b98                HAL_UART_AbortReceive_IT
- .text.HAL_UART_IRQHandler
-                0x08002d24      0x684 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08002d24                HAL_UART_IRQHandler
- .text.HAL_UART_TxCpltCallback
-                0x080033a8       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x080033a8                HAL_UART_TxCpltCallback
- .text.HAL_UART_AbortReceiveCpltCallback
-                0x080033bc       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x080033bc                HAL_UART_AbortReceiveCpltCallback
+                0x08000ba8       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000ba8                TIM6_DAC_IRQHandler
  .text.HAL_UARTEx_RxEventCallback
-                0x080033d0       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x080033d0                HAL_UARTEx_RxEventCallback
+                0x08000bbc       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000bbc                HAL_UARTEx_RxEventCallback
+ .text.HAL_TIM_PeriodElapsedCallback
+                0x08000bec       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000bec                HAL_TIM_PeriodElapsedCallback
+ .text.HAL_UART_ErrorCallback
+                0x08000c14       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x08000c14                HAL_UART_ErrorCallback
+ .text.HAL_MspInit
+                0x08000c3c       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+                0x08000c3c                HAL_MspInit
+ .text.SystemInit
+                0x08000c84       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+                0x08000c84                SystemInit
+ .text.HAL_I2C_Init
+                0x08000ca8      0x136 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+                0x08000ca8                HAL_I2C_Init
+ .text.HAL_I2CEx_ConfigAnalogFilter
+                0x08000dde       0x96 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+                0x08000dde                HAL_I2CEx_ConfigAnalogFilter
+ .text.HAL_I2CEx_ConfigDigitalFilter
+                0x08000e74       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+                0x08000e74                HAL_I2CEx_ConfigDigitalFilter
+ .text.HAL_Init
+                0x08000f0c       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x08000f0c                HAL_Init
+ .text.HAL_InitTick
+                0x08000f3c       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x08000f3c                HAL_InitTick
+ .text.HAL_IncTick
+                0x08000fb0       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x08000fb0                HAL_IncTick
+ .text.HAL_GetTick
+                0x08000fd4       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x08000fd4                HAL_GetTick
+ .text.HAL_Delay
+                0x08000fec       0x44 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x08000fec                HAL_Delay
+ .text.HAL_RCC_OscConfig
+                0x08001030      0x624 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x08001030                HAL_RCC_OscConfig
+ .text.HAL_RCC_ClockConfig
+                0x08001654      0x278 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x08001654                HAL_RCC_ClockConfig
+ .text.HAL_RCC_GetSysClockFreq
+                0x080018cc       0xc4 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x080018cc                HAL_RCC_GetSysClockFreq
+ .text.HAL_RCC_GetHCLKFreq
+                0x08001990       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x08001990                HAL_RCC_GetHCLKFreq
+ .text.HAL_RCC_GetPCLK1Freq
+                0x080019a8       0x2c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x080019a8                HAL_RCC_GetPCLK1Freq
+ .text.HAL_RCC_GetPCLK2Freq
+                0x080019d4       0x2c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x080019d4                HAL_RCC_GetPCLK2Freq
+ .text.RCC_GetSysClockFreqFromPLLSource
+                0x08001a00       0x8c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .text.HAL_RCCEx_PeriphCLKConfig
+                0x08001a8c      0x49c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+                0x08001a8c                HAL_RCCEx_PeriphCLKConfig
+ .text.HAL_GPIO_Init
+                0x08001f28      0x318 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+                0x08001f28                HAL_GPIO_Init
+ .text.HAL_GPIO_WritePin
+                0x08002240       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+                0x08002240                HAL_GPIO_WritePin
+ .text.HAL_DMA_Abort
+                0x08002270       0xbc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+                0x08002270                HAL_DMA_Abort
+ .text.HAL_DMA_Abort_IT
+                0x0800232c       0xce CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+                0x0800232c                HAL_DMA_Abort_IT
+ .text.HAL_DMA_GetError
+                0x080023fa       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+                0x080023fa                HAL_DMA_GetError
+ *fill*         0x08002412        0x2 
+ .text.HAL_PWREx_ControlVoltageScaling
+                0x08002414      0x148 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+                0x08002414                HAL_PWREx_ControlVoltageScaling
+ .text.HAL_PWREx_DisableUCPDDeadBattery
+                0x0800255c       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+                0x0800255c                HAL_PWREx_DisableUCPDDeadBattery
+ .text.__NVIC_SetPriorityGrouping
+                0x0800257c       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .text.__NVIC_GetPriorityGrouping
+                0x080025c4       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .text.__NVIC_EnableIRQ
+                0x080025e0       0x3c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .text.__NVIC_SetPriority
+                0x0800261c       0x54 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .text.NVIC_EncodePriority
+                0x08002670       0x66 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ *fill*         0x080026d6        0x2 
+ .text.SysTick_Config
+                0x080026d8       0x44 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .text.HAL_NVIC_SetPriorityGrouping
+                0x0800271c       0x16 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x0800271c                HAL_NVIC_SetPriorityGrouping
+ .text.HAL_NVIC_SetPriority
+                0x08002732       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x08002732                HAL_NVIC_SetPriority
+ .text.HAL_NVIC_EnableIRQ
+                0x08002766       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x08002766                HAL_NVIC_EnableIRQ
+ .text.HAL_SYSTICK_Config
+                0x08002782       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x08002782                HAL_SYSTICK_Config
+ .text.HAL_UART_AbortReceive
+                0x0800279a      0x162 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x0800279a                HAL_UART_AbortReceive
+ .text.HAL_UART_IRQHandler
+                0x080028fc      0x684 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x080028fc                HAL_UART_IRQHandler
+ .text.HAL_UART_TxCpltCallback
+                0x08002f80       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08002f80                HAL_UART_TxCpltCallback
+ .text.HAL_UART_RxCpltCallback
+                0x08002f94       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08002f94                HAL_UART_RxCpltCallback
  .text.UART_SetConfig
-                0x080033e8      0x5f8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x080033e8                UART_SetConfig
+                0x08002fa8      0x5f8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08002fa8                UART_SetConfig
  .text.UART_AdvFeatureConfig
-                0x080039e0      0x144 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x080039e0                UART_AdvFeatureConfig
+                0x080035a0      0x144 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x080035a0                UART_AdvFeatureConfig
  .text.UART_CheckIdleState
-                0x08003b24      0x154 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08003b24                UART_CheckIdleState
+                0x080036e4      0x154 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x080036e4                UART_CheckIdleState
  .text.UART_WaitOnFlagUntilTimeout
-                0x08003c78       0xda CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08003c78                UART_WaitOnFlagUntilTimeout
- *fill*         0x08003d52        0x2 
+                0x08003838       0xda CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003838                UART_WaitOnFlagUntilTimeout
+ *fill*         0x08003912        0x2 
  .text.UART_Start_Receive_IT
-                0x08003d54      0x244 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08003d54                UART_Start_Receive_IT
+                0x08003914      0x244 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003914                UART_Start_Receive_IT
  .text.UART_EndRxTransfer
-                0x08003f98       0xcc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003b58       0xcc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_DMAAbortOnError
-                0x08004064       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .text.UART_DMARxOnlyAbortCallback
-                0x08004080       0x42 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003c24       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_EndTransmit_IT
-                0x080040c2       0x56 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003c40       0x56 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ *fill*         0x08003c96        0x2 
  .text.UART_RxISR_8BIT
-                0x08004118      0x1b8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003c98      0x1b8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_RxISR_16BIT
-                0x080042d0      0x1b8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08003e50      0x1b8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_RxISR_8BIT_FIFOEN
-                0x08004488      0x364 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x08004008      0x364 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.UART_RxISR_16BIT_FIFOEN
-                0x080047ec      0x36c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x0800436c      0x36c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .text.HAL_RS485Ex_Init
-                0x08004b58       0xd2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004b58                HAL_RS485Ex_Init
+                0x080046d8       0xd2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080046d8                HAL_RS485Ex_Init
  .text.HAL_UARTEx_WakeupCallback
-                0x08004c2a       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004c2a                HAL_UARTEx_WakeupCallback
+                0x080047aa       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080047aa                HAL_UARTEx_WakeupCallback
  .text.HAL_UARTEx_RxFifoFullCallback
-                0x08004c3e       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004c3e                HAL_UARTEx_RxFifoFullCallback
+                0x080047be       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080047be                HAL_UARTEx_RxFifoFullCallback
  .text.HAL_UARTEx_TxFifoEmptyCallback
-                0x08004c52       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004c52                HAL_UARTEx_TxFifoEmptyCallback
+                0x080047d2       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080047d2                HAL_UARTEx_TxFifoEmptyCallback
  .text.HAL_UARTEx_DisableFifoMode
-                0x08004c66       0x72 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004c66                HAL_UARTEx_DisableFifoMode
+                0x080047e6       0x72 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080047e6                HAL_UARTEx_DisableFifoMode
  .text.HAL_UARTEx_SetTxFifoThreshold
-                0x08004cd8       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004cd8                HAL_UARTEx_SetTxFifoThreshold
+                0x08004858       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x08004858                HAL_UARTEx_SetTxFifoThreshold
  .text.HAL_UARTEx_SetRxFifoThreshold
-                0x08004d54       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
-                0x08004d54                HAL_UARTEx_SetRxFifoThreshold
+                0x080048d4       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080048d4                HAL_UARTEx_SetRxFifoThreshold
+ .text.HAL_UARTEx_ReceiveToIdle_IT
+                0x08004950       0xa0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x08004950                HAL_UARTEx_ReceiveToIdle_IT
  .text.UARTEx_SetNbDataToProcess
-                0x08004dd0       0x9c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080049f0       0x9c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .text.Reset_Handler
-                0x08004e6c       0x50 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
-                0x08004e6c                Reset_Handler
+                0x08004a8c       0x50 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+                0x08004a8c                Reset_Handler
  .text.Default_Handler
-                0x08004ebc        0x2 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
-                0x08004ebc                RTC_Alarm_IRQHandler
-                0x08004ebc                EXTI2_IRQHandler
-                0x08004ebc                TIM8_TRG_COM_IRQHandler
-                0x08004ebc                TIM8_CC_IRQHandler
-                0x08004ebc                HRTIM1_Master_IRQHandler
-                0x08004ebc                SPI4_IRQHandler
-                0x08004ebc                FDCAN3_IT0_IRQHandler
-                0x08004ebc                TIM1_CC_IRQHandler
-                0x08004ebc                HRTIM1_FLT_IRQHandler
-                0x08004ebc                HRTIM1_TIMF_IRQHandler
-                0x08004ebc                USB_HP_IRQHandler
-                0x08004ebc                CORDIC_IRQHandler
-                0x08004ebc                HRTIM1_TIMD_IRQHandler
-                0x08004ebc                DMA2_Channel8_IRQHandler
-                0x08004ebc                EXTI3_IRQHandler
-                0x08004ebc                I2C3_ER_IRQHandler
-                0x08004ebc                EXTI0_IRQHandler
-                0x08004ebc                I2C2_EV_IRQHandler
-                0x08004ebc                FPU_IRQHandler
-                0x08004ebc                FDCAN1_IT1_IRQHandler
-                0x08004ebc                TIM1_UP_TIM16_IRQHandler
-                0x08004ebc                ADC1_2_IRQHandler
-                0x08004ebc                HRTIM1_TIME_IRQHandler
-                0x08004ebc                SPI1_IRQHandler
-                0x08004ebc                HRTIM1_TIMC_IRQHandler
-                0x08004ebc                TIM8_UP_IRQHandler
-                0x08004ebc                DMA2_Channel2_IRQHandler
-                0x08004ebc                DMA1_Channel4_IRQHandler
-                0x08004ebc                TIM20_TRG_COM_IRQHandler
-                0x08004ebc                USART3_IRQHandler
-                0x08004ebc                DMA1_Channel7_IRQHandler
-                0x08004ebc                UART5_IRQHandler
-                0x08004ebc                ADC3_IRQHandler
-                0x08004ebc                TIM4_IRQHandler
-                0x08004ebc                DMA2_Channel1_IRQHandler
-                0x08004ebc                QUADSPI_IRQHandler
-                0x08004ebc                I2C1_EV_IRQHandler
-                0x08004ebc                DMA1_Channel6_IRQHandler
-                0x08004ebc                UART4_IRQHandler
-                0x08004ebc                DMA2_Channel4_IRQHandler
-                0x08004ebc                TIM3_IRQHandler
-                0x08004ebc                RCC_IRQHandler
-                0x08004ebc                TIM20_UP_IRQHandler
-                0x08004ebc                DMA1_Channel1_IRQHandler
-                0x08004ebc                Default_Handler
-                0x08004ebc                DMA2_Channel7_IRQHandler
-                0x08004ebc                RTC_TAMP_LSECSS_IRQHandler
-                0x08004ebc                FMAC_IRQHandler
-                0x08004ebc                EXTI15_10_IRQHandler
-                0x08004ebc                DMA1_Channel8_IRQHandler
-                0x08004ebc                HRTIM1_TIMA_IRQHandler
-                0x08004ebc                TIM7_DAC_IRQHandler
-                0x08004ebc                FDCAN3_IT1_IRQHandler
-                0x08004ebc                TIM5_IRQHandler
-                0x08004ebc                UCPD1_IRQHandler
-                0x08004ebc                I2C3_EV_IRQHandler
-                0x08004ebc                EXTI9_5_IRQHandler
-                0x08004ebc                RTC_WKUP_IRQHandler
-                0x08004ebc                PVD_PVM_IRQHandler
-                0x08004ebc                SPI2_IRQHandler
-                0x08004ebc                ADC5_IRQHandler
-                0x08004ebc                DMA2_Channel5_IRQHandler
-                0x08004ebc                CRS_IRQHandler
-                0x08004ebc                DMA1_Channel5_IRQHandler
-                0x08004ebc                USB_LP_IRQHandler
-                0x08004ebc                EXTI4_IRQHandler
-                0x08004ebc                RNG_IRQHandler
-                0x08004ebc                HRTIM1_TIMB_IRQHandler
-                0x08004ebc                TIM1_TRG_COM_TIM17_IRQHandler
-                0x08004ebc                FDCAN2_IT1_IRQHandler
-                0x08004ebc                DMA1_Channel3_IRQHandler
-                0x08004ebc                ADC4_IRQHandler
-                0x08004ebc                WWDG_IRQHandler
-                0x08004ebc                I2C4_EV_IRQHandler
-                0x08004ebc                FDCAN2_IT0_IRQHandler
-                0x08004ebc                LPUART1_IRQHandler
-                0x08004ebc                DMA2_Channel6_IRQHandler
-                0x08004ebc                FDCAN1_IT0_IRQHandler
-                0x08004ebc                TIM2_IRQHandler
-                0x08004ebc                COMP7_IRQHandler
-                0x08004ebc                COMP1_2_3_IRQHandler
-                0x08004ebc                EXTI1_IRQHandler
-                0x08004ebc                COMP4_5_6_IRQHandler
-                0x08004ebc                TIM20_BRK_IRQHandler
-                0x08004ebc                I2C2_ER_IRQHandler
-                0x08004ebc                DMA1_Channel2_IRQHandler
-                0x08004ebc                TIM8_BRK_IRQHandler
-                0x08004ebc                FLASH_IRQHandler
-                0x08004ebc                TIM20_CC_IRQHandler
-                0x08004ebc                USART1_IRQHandler
-                0x08004ebc                SPI3_IRQHandler
-                0x08004ebc                I2C1_ER_IRQHandler
-                0x08004ebc                FMC_IRQHandler
-                0x08004ebc                LPTIM1_IRQHandler
-                0x08004ebc                DMAMUX_OVR_IRQHandler
-                0x08004ebc                I2C4_ER_IRQHandler
-                0x08004ebc                USBWakeUp_IRQHandler
-                0x08004ebc                SAI1_IRQHandler
-                0x08004ebc                DMA2_Channel3_IRQHandler
-                0x08004ebc                TIM1_BRK_TIM15_IRQHandler
- *fill*         0x08004ebe        0x2 
+                0x08004adc        0x2 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+                0x08004adc                RTC_Alarm_IRQHandler
+                0x08004adc                EXTI2_IRQHandler
+                0x08004adc                TIM8_TRG_COM_IRQHandler
+                0x08004adc                TIM8_CC_IRQHandler
+                0x08004adc                HRTIM1_Master_IRQHandler
+                0x08004adc                SPI4_IRQHandler
+                0x08004adc                FDCAN3_IT0_IRQHandler
+                0x08004adc                TIM1_CC_IRQHandler
+                0x08004adc                HRTIM1_FLT_IRQHandler
+                0x08004adc                HRTIM1_TIMF_IRQHandler
+                0x08004adc                USB_HP_IRQHandler
+                0x08004adc                CORDIC_IRQHandler
+                0x08004adc                HRTIM1_TIMD_IRQHandler
+                0x08004adc                DMA2_Channel8_IRQHandler
+                0x08004adc                EXTI3_IRQHandler
+                0x08004adc                I2C3_ER_IRQHandler
+                0x08004adc                EXTI0_IRQHandler
+                0x08004adc                I2C2_EV_IRQHandler
+                0x08004adc                FPU_IRQHandler
+                0x08004adc                FDCAN1_IT1_IRQHandler
+                0x08004adc                TIM1_UP_TIM16_IRQHandler
+                0x08004adc                ADC1_2_IRQHandler
+                0x08004adc                HRTIM1_TIME_IRQHandler
+                0x08004adc                SPI1_IRQHandler
+                0x08004adc                HRTIM1_TIMC_IRQHandler
+                0x08004adc                TIM8_UP_IRQHandler
+                0x08004adc                DMA2_Channel2_IRQHandler
+                0x08004adc                DMA1_Channel4_IRQHandler
+                0x08004adc                TIM20_TRG_COM_IRQHandler
+                0x08004adc                USART3_IRQHandler
+                0x08004adc                DMA1_Channel7_IRQHandler
+                0x08004adc                UART5_IRQHandler
+                0x08004adc                ADC3_IRQHandler
+                0x08004adc                TIM4_IRQHandler
+                0x08004adc                DMA2_Channel1_IRQHandler
+                0x08004adc                QUADSPI_IRQHandler
+                0x08004adc                I2C1_EV_IRQHandler
+                0x08004adc                DMA1_Channel6_IRQHandler
+                0x08004adc                UART4_IRQHandler
+                0x08004adc                DMA2_Channel4_IRQHandler
+                0x08004adc                TIM3_IRQHandler
+                0x08004adc                RCC_IRQHandler
+                0x08004adc                TIM20_UP_IRQHandler
+                0x08004adc                DMA1_Channel1_IRQHandler
+                0x08004adc                Default_Handler
+                0x08004adc                DMA2_Channel7_IRQHandler
+                0x08004adc                RTC_TAMP_LSECSS_IRQHandler
+                0x08004adc                FMAC_IRQHandler
+                0x08004adc                EXTI15_10_IRQHandler
+                0x08004adc                DMA1_Channel8_IRQHandler
+                0x08004adc                HRTIM1_TIMA_IRQHandler
+                0x08004adc                TIM7_DAC_IRQHandler
+                0x08004adc                FDCAN3_IT1_IRQHandler
+                0x08004adc                TIM5_IRQHandler
+                0x08004adc                UCPD1_IRQHandler
+                0x08004adc                I2C3_EV_IRQHandler
+                0x08004adc                EXTI9_5_IRQHandler
+                0x08004adc                RTC_WKUP_IRQHandler
+                0x08004adc                PVD_PVM_IRQHandler
+                0x08004adc                SPI2_IRQHandler
+                0x08004adc                ADC5_IRQHandler
+                0x08004adc                DMA2_Channel5_IRQHandler
+                0x08004adc                CRS_IRQHandler
+                0x08004adc                DMA1_Channel5_IRQHandler
+                0x08004adc                USB_LP_IRQHandler
+                0x08004adc                EXTI4_IRQHandler
+                0x08004adc                RNG_IRQHandler
+                0x08004adc                HRTIM1_TIMB_IRQHandler
+                0x08004adc                TIM1_TRG_COM_TIM17_IRQHandler
+                0x08004adc                FDCAN2_IT1_IRQHandler
+                0x08004adc                DMA1_Channel3_IRQHandler
+                0x08004adc                ADC4_IRQHandler
+                0x08004adc                WWDG_IRQHandler
+                0x08004adc                I2C4_EV_IRQHandler
+                0x08004adc                FDCAN2_IT0_IRQHandler
+                0x08004adc                LPUART1_IRQHandler
+                0x08004adc                DMA2_Channel6_IRQHandler
+                0x08004adc                FDCAN1_IT0_IRQHandler
+                0x08004adc                TIM2_IRQHandler
+                0x08004adc                COMP7_IRQHandler
+                0x08004adc                COMP1_2_3_IRQHandler
+                0x08004adc                EXTI1_IRQHandler
+                0x08004adc                COMP4_5_6_IRQHandler
+                0x08004adc                TIM20_BRK_IRQHandler
+                0x08004adc                I2C2_ER_IRQHandler
+                0x08004adc                DMA1_Channel2_IRQHandler
+                0x08004adc                TIM8_BRK_IRQHandler
+                0x08004adc                FLASH_IRQHandler
+                0x08004adc                TIM20_CC_IRQHandler
+                0x08004adc                USART1_IRQHandler
+                0x08004adc                SPI3_IRQHandler
+                0x08004adc                I2C1_ER_IRQHandler
+                0x08004adc                FMC_IRQHandler
+                0x08004adc                LPTIM1_IRQHandler
+                0x08004adc                DMAMUX_OVR_IRQHandler
+                0x08004adc                I2C4_ER_IRQHandler
+                0x08004adc                USBWakeUp_IRQHandler
+                0x08004adc                SAI1_IRQHandler
+                0x08004adc                DMA2_Channel3_IRQHandler
+                0x08004adc                TIM1_BRK_TIM15_IRQHandler
+ *fill*         0x08004ade        0x2 
  .text.MX_TIM6_Init
-                0x08004ec0       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
-                0x08004ec0                MX_TIM6_Init
+                0x08004ae0       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+                0x08004ae0                MX_TIM6_Init
  .text.HAL_TIM_Base_MspInit
-                0x08004f00       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
-                0x08004f00                HAL_TIM_Base_MspInit
+                0x08004b20       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+                0x08004b20                HAL_TIM_Base_MspInit
  .text.HAL_TIM_Base_Init
-                0x08004f4c       0xae CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x08004f4c                HAL_TIM_Base_Init
- *fill*         0x08004ffa        0x2 
- .text.HAL_TIM_Base_Start_IT
-                0x08004ffc       0xf0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x08004ffc                HAL_TIM_Base_Start_IT
- .text.HAL_TIM_Base_Stop_IT
-                0x080050ec       0x60 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x080050ec                HAL_TIM_Base_Stop_IT
+                0x08004b6c       0xae CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004b6c                HAL_TIM_Base_Init
  .text.HAL_TIM_IRQHandler
-                0x0800514c      0x29e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x0800514c                HAL_TIM_IRQHandler
+                0x08004c1a      0x29e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004c1a                HAL_TIM_IRQHandler
  .text.HAL_TIM_OC_DelayElapsedCallback
-                0x080053ea       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x080053ea                HAL_TIM_OC_DelayElapsedCallback
+                0x08004eb8       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004eb8                HAL_TIM_OC_DelayElapsedCallback
  .text.HAL_TIM_IC_CaptureCallback
-                0x080053fe       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x080053fe                HAL_TIM_IC_CaptureCallback
+                0x08004ecc       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004ecc                HAL_TIM_IC_CaptureCallback
  .text.HAL_TIM_PWM_PulseFinishedCallback
-                0x08005412       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x08005412                HAL_TIM_PWM_PulseFinishedCallback
+                0x08004ee0       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004ee0                HAL_TIM_PWM_PulseFinishedCallback
  .text.HAL_TIM_TriggerCallback
-                0x08005426       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x08005426                HAL_TIM_TriggerCallback
- *fill*         0x0800543a        0x2 
+                0x08004ef4       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004ef4                HAL_TIM_TriggerCallback
  .text.TIM_Base_SetConfig
-                0x0800543c      0x15c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
-                0x0800543c                TIM_Base_SetConfig
+                0x08004f08      0x15c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x08004f08                TIM_Base_SetConfig
  .text.HAL_TIMEx_CommutCallback
-                0x08005598       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x08005598                HAL_TIMEx_CommutCallback
+                0x08005064       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x08005064                HAL_TIMEx_CommutCallback
  .text.HAL_TIMEx_BreakCallback
-                0x080055ac       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x080055ac                HAL_TIMEx_BreakCallback
+                0x08005078       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x08005078                HAL_TIMEx_BreakCallback
  .text.HAL_TIMEx_Break2Callback
-                0x080055c0       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x080055c0                HAL_TIMEx_Break2Callback
+                0x0800508c       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x0800508c                HAL_TIMEx_Break2Callback
  .text.HAL_TIMEx_EncoderIndexCallback
-                0x080055d4       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x080055d4                HAL_TIMEx_EncoderIndexCallback
+                0x080050a0       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x080050a0                HAL_TIMEx_EncoderIndexCallback
  .text.HAL_TIMEx_DirectionChangeCallback
-                0x080055e8       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x080055e8                HAL_TIMEx_DirectionChangeCallback
+                0x080050b4       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x080050b4                HAL_TIMEx_DirectionChangeCallback
  .text.HAL_TIMEx_IndexErrorCallback
-                0x080055fc       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x080055fc                HAL_TIMEx_IndexErrorCallback
+                0x080050c8       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x080050c8                HAL_TIMEx_IndexErrorCallback
  .text.HAL_TIMEx_TransitionErrorCallback
-                0x08005610       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
-                0x08005610                HAL_TIMEx_TransitionErrorCallback
+                0x080050dc       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x080050dc                HAL_TIMEx_TransitionErrorCallback
  .text.Modbus_CRC16
-                0x08005624       0x5c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080050f0       0x5c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .text.Modbus_Restart_RX
-                0x08005680       0x32 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x0800514c       0x7a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .text.Modbus_Init
-                0x080056b2       0x5c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x080056b2                Modbus_Init
+                0x080051c6       0x5e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080051c6                Modbus_Init
  .text.Modbus_Send
-                0x0800570e       0x4a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x08005224       0x94 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .text.Modbus_Master_Request
-                0x08005758       0xea CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x08005758                Modbus_Master_Request
+                0x080052b8       0xea CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080052b8                Modbus_Master_Request
+ *fill*         0x080053a2        0x2 
  .text.Modbus_Master_Process
-                0x08005842      0x194 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x08005842                Modbus_Master_Process
- .text.Modbus_IRQHandler_RxCplt
-                0x080059d6       0x6e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x080059d6                Modbus_IRQHandler_RxCplt
+                0x080053a4      0x228 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080053a4                Modbus_Master_Process
+ .text.Modbus_IRQHandler_RxEvent
+                0x080055cc       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080055cc                Modbus_IRQHandler_RxEvent
  .text.Modbus_IRQHandler_Timeout
-                0x08005a44       0x2a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x08005a44                Modbus_IRQHandler_Timeout
+                0x080055fc       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080055fc                Modbus_IRQHandler_Timeout
  .text.Modbus_IRQHandler_Error
-                0x08005a6e       0x6c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x08005a6e                Modbus_IRQHandler_Error
- .text.memset   0x08005ada       0x10 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
-                0x08005ada                memset
- *fill*         0x08005aea        0x2 
+                0x08005610       0x38 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x08005610                Modbus_IRQHandler_Error
+ .text.memset   0x08005648       0x10 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+                0x08005648                memset
  .text.__libc_init_array
-                0x08005aec       0x48 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
-                0x08005aec                __libc_init_array
+                0x08005658       0x48 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+                0x08005658                __libc_init_array
  *(.glue_7)
- .glue_7        0x08005b34        0x0 linker stubs
+ .glue_7        0x080056a0        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x08005b34        0x0 linker stubs
+ .glue_7t       0x080056a0        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x08005b34        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .eh_frame      0x080056a0        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.init)
- .init          0x08005b34        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x08005b34                _init
- .init          0x08005b38        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtn.o
+ .init          0x080056a0        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x080056a0                _init
+ .init          0x080056a4        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtn.o
  *(.fini)
- .fini          0x08005b40        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crti.o
-                0x08005b40                _fini
- .fini          0x08005b44        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtn.o
-                0x08005b4c                        . = ALIGN (0x4)
-                0x08005b4c                        _etext = .
+ .fini          0x080056ac        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crti.o
+                0x080056ac                _fini
+ .fini          0x080056b0        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtn.o
+                0x080056b8                        . = ALIGN (0x4)
+                0x080056b8                        _etext = .
 
-.vfp11_veneer   0x08005b4c        0x0
- .vfp11_veneer  0x08005b4c        0x0 linker stubs
+.vfp11_veneer   0x080056b8        0x0
+ .vfp11_veneer  0x080056b8        0x0 linker stubs
 
-.v4_bx          0x08005b4c        0x0
- .v4_bx         0x08005b4c        0x0 linker stubs
+.v4_bx          0x080056b8        0x0
+ .v4_bx         0x080056b8        0x0 linker stubs
 
-.iplt           0x08005b4c        0x0
- .iplt          0x08005b4c        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.iplt           0x080056b8        0x0
+ .iplt          0x080056b8        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.rodata         0x08005b4c      0x240
-                0x08005b4c                        . = ALIGN (0x4)
+.rodata         0x080056b8      0x240
+                0x080056b8                        . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
  .rodata.AHBPrescTable
-                0x08005b4c       0x10 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
-                0x08005b4c                AHBPrescTable
+                0x080056b8       0x10 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+                0x080056b8                AHBPrescTable
  .rodata.APBPrescTable
-                0x08005b5c        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
-                0x08005b5c                APBPrescTable
+                0x080056c8        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+                0x080056c8                APBPrescTable
  .rodata.UARTPrescTable
-                0x08005b64       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
-                0x08005b64                UARTPrescTable
+                0x080056d0       0x18 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x080056d0                UARTPrescTable
  .rodata.numerator.1
-                0x08005b7c        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080056e8        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .rodata.denominator.0
-                0x08005b84        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x080056f0        0x8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .rodata.crc16_table
-                0x08005b8c      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                0x08005d8c                        . = ALIGN (0x4)
+                0x080056f8      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x080058f8                        . = ALIGN (0x4)
 
-.ARM.extab      0x08005d8c        0x0
-                0x08005d8c                        . = ALIGN (0x4)
+.ARM.extab      0x080058f8        0x0
+                0x080058f8                        . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08005d8c                        . = ALIGN (0x4)
+                0x080058f8                        . = ALIGN (0x4)
 
-.ARM            0x08005d8c        0x8
-                0x08005d8c                        . = ALIGN (0x4)
-                0x08005d8c                        __exidx_start = .
+.ARM            0x080058f8        0x8
+                0x080058f8                        . = ALIGN (0x4)
+                0x080058f8                        __exidx_start = .
  *(.ARM.exidx*)
- .ARM.exidx     0x08005d8c        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
-                0x08005d94                        __exidx_end = .
-                0x08005d94                        . = ALIGN (0x4)
+ .ARM.exidx     0x080058f8        0x8 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
+                0x08005900                        __exidx_end = .
+                0x08005900                        . = ALIGN (0x4)
 
-.preinit_array  0x08005d94        0x0
-                0x08005d94                        . = ALIGN (0x4)
-                0x08005d94                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x08005900        0x0
+                0x08005900                        . = ALIGN (0x4)
+                0x08005900                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x08005d94                        PROVIDE (__preinit_array_end = .)
-                0x08005d94                        . = ALIGN (0x4)
+                0x08005900                        PROVIDE (__preinit_array_end = .)
+                0x08005900                        . = ALIGN (0x4)
 
-.init_array     0x08005d94        0x4
-                0x08005d94                        . = ALIGN (0x4)
-                0x08005d94                        PROVIDE (__init_array_start = .)
+.init_array     0x08005900        0x4
+                0x08005900                        . = ALIGN (0x4)
+                0x08005900                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x08005d94        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
-                0x08005d98                        PROVIDE (__init_array_end = .)
-                0x08005d98                        . = ALIGN (0x4)
+ .init_array    0x08005900        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+                0x08005904                        PROVIDE (__init_array_end = .)
+                0x08005904                        . = ALIGN (0x4)
 
-.fini_array     0x08005d98        0x4
-                0x08005d98                        . = ALIGN (0x4)
+.fini_array     0x08005904        0x4
+                0x08005904                        . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x08005d98        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+ .fini_array    0x08005904        0x4 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x08005d9c                        . = ALIGN (0x4)
-                0x08005d9c                        _sidata = LOADADDR (.data)
+                0x08005908                        . = ALIGN (0x4)
+                0x08005908                        _sidata = LOADADDR (.data)
 
-.rel.dyn        0x08005d9c        0x0
- .rel.iplt      0x08005d9c        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
+.rel.dyn        0x08005908        0x0
+ .rel.iplt      0x08005908        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.data           0x20000000        0xc load address 0x08005d9c
+.data           0x20000000        0xc load address 0x08005908
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
@@ -4820,10 +4813,10 @@ LOAD E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/.
  *(.RamFunc*)
                 0x2000000c                        . = ALIGN (0x4)
 
-.igot.plt       0x2000000c        0x0 load address 0x08005da8
+.igot.plt       0x2000000c        0x0 load address 0x08005914
  .igot.plt      0x2000000c        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
 
-.tdata          0x2000000c        0x0 load address 0x08005da8
+.tdata          0x2000000c        0x0 load address 0x08005914
  *(.tdata .tdata.* .gnu.linkonce.td.*)
                 0x2000000c                        . = ALIGN (0x4)
                 0x2000000c                        _edata = .
@@ -4840,7 +4833,7 @@ LOAD E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/.
                 [!provide]                        PROVIDE (__data_source_end = __tdata_source_end)
                 [!provide]                        PROVIDE (__data_source_size = (__data_source_end - __data_source))
 
-.tbss           0x2000000c        0x0 load address 0x08005da8
+.tbss           0x2000000c        0x0 load address 0x08005914
                 0x2000000c                        _sbss = .
                 0x2000000c                        __bss_start__ = _sbss
  *(.tbss .tbss.*)
@@ -4857,63 +4850,54 @@ LOAD E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/.
                 [!provide]                        PROVIDE (__arm32_tls_tcb_offset = MAX (0x8, __tls_align))
                 [!provide]                        PROVIDE (__arm64_tls_tcb_offset = MAX (0x10, __tls_align))
 
-.bss            0x2000000c      0x3ac load address 0x08005da8
+.bss            0x2000000c      0x3c8 load address 0x08005914
  *(.bss)
  .bss           0x2000000c       0x1c E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard/crtbegin.o
  *(.bss*)
  .bss.hmodbus   0x20000028      0x240 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
                 0x20000028                hmodbus
- .bss.master_state
-                0x20000268        0x1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x20000268                master_state
- *fill*         0x20000269        0x3 
- .bss.led_off_tick
-                0x2000026c        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x2000026c                led_off_tick
- .bss.led_is_on
-                0x20000270        0x1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x20000270                led_is_on
- *fill*         0x20000271        0x3 
- .bss.last_btn_tick
-                0x20000274        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x20000274                last_btn_tick
- .bss.last_poll_tick
-                0x20000278        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x20000278                last_poll_tick
- .bss.last_slave_cnt
-                0x2000027c        0x2 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x2000027c                last_slave_cnt
- .bss.first_poll_done
-                0x2000027e        0x1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                0x2000027e                first_poll_done
- *fill*         0x2000027f        0x1 
- .bss.hi2c2     0x20000280       0x54 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
-                0x20000280                hi2c2
- .bss.huart2    0x200002d4       0x94 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
-                0x200002d4                huart2
- .bss.uwTick    0x20000368        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
-                0x20000368                uwTick
- .bss.htim6     0x2000036c       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
-                0x2000036c                htim6
+ .bss.register_map
+                0x20000268       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x20000268                register_map
+ .bss.arbiter_state
+                0x20000290        0x1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x20000290                arbiter_state
+ *fill*         0x20000291        0x3 
+ .bss.arbiter_delay_tick
+                0x20000294        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x20000294                arbiter_delay_tick
+ .bss.current_allowed_mode
+                0x20000298        0x2 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x20000298                current_allowed_mode
+ *fill*         0x2000029a        0x2 
+ .bss.hi2c2     0x2000029c       0x54 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+                0x2000029c                hi2c2
+ .bss.huart2    0x200002f0       0x94 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+                0x200002f0                huart2
+ .bss.uwTick    0x20000384        0x4 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x20000384                uwTick
+ .bss.htim6     0x20000388       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+                0x20000388                htim6
  *(COMMON)
-                0x200003b8                        . = ALIGN (0x4)
-                0x200003b8                        _ebss = .
-                0x200003b8                        __bss_end__ = _ebss
+                0x200003d4                        . = ALIGN (0x4)
+                0x200003d4                        _ebss = .
+                0x200003d4                        __bss_end__ = _ebss
                 [!provide]                        PROVIDE (__bss_end = .)
                 [!provide]                        PROVIDE (__non_tls_bss_start = ADDR (.bss))
                 [!provide]                        PROVIDE (__bss_start = __tbss_start)
                 [!provide]                        PROVIDE (__bss_size = (__bss_end - __bss_start))
 
 ._user_heap_stack
-                0x200003b8      0x600 load address 0x08005da8
-                0x200003b8                        . = ALIGN (0x8)
+                0x200003d4      0x604 load address 0x08005914
+                0x200003d8                        . = ALIGN (0x8)
+ *fill*         0x200003d4        0x4 
                 [!provide]                        PROVIDE (end = .)
-                0x200003b8                        PROVIDE (_end = .)
-                0x200005b8                        . = (. + _Min_Heap_Size)
- *fill*         0x200003b8      0x200 
-                0x200009b8                        . = (. + _Min_Stack_Size)
- *fill*         0x200005b8      0x400 
-                0x200009b8                        . = ALIGN (0x8)
+                0x200003d8                        PROVIDE (_end = .)
+                0x200005d8                        . = (. + _Min_Heap_Size)
+ *fill*         0x200003d8      0x200 
+                0x200009d8                        . = (. + _Min_Stack_Size)
+ *fill*         0x200005d8      0x400 
+                0x200009d8                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a:*(*)
@@ -5037,343 +5021,343 @@ LOAD linker stubs
  .comment       0x00000043        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
                                  0x44 (size before relaxing)
 
-.debug_info     0x00000000    0x189a8
- .debug_info    0x00000000     0x167c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_info    0x0000167c      0x468 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
- .debug_info    0x00001ae4      0xcad CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
- .debug_info    0x00002791      0xdba CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
- .debug_info    0x0000354b      0xf1a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_info    0x00004465      0x2da CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_info    0x0000473f      0x58e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
- .debug_info    0x00004ccd     0x21ea CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
- .debug_info    0x00006eb7      0xad6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
- .debug_info    0x0000798d      0xb95 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_info    0x00008522      0xbf9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_info    0x0000911b      0xc5d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
- .debug_info    0x00009d78      0x772 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_info    0x0000a4ea      0x85f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
- .debug_info    0x0000ad49      0x944 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_info    0x0000b68d      0xdf9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_info    0x0000c486     0x4854 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .debug_info    0x00010cda      0xfdc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .debug_info    0x00011cb6       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
- .debug_info    0x00011ce6      0xdbb CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
- .debug_info    0x00012aa1     0x2c52 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
- .debug_info    0x000156f3     0x1d95 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
- .debug_info    0x00017488     0x1335 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_info    0x000187bd       0xe0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_info    0x0001889d      0x10b E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+.debug_info     0x00000000    0x1888d
+ .debug_info    0x00000000     0x1520 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_info    0x00001520      0x468 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+ .debug_info    0x00001988      0xcad CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_info    0x00002635      0xdba CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_info    0x000033ef      0xf2d CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_info    0x0000431c      0x2da CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_info    0x000045f6      0x58e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_info    0x00004b84     0x21ea CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_info    0x00006d6e      0xad6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_info    0x00007844      0xb95 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_info    0x000083d9      0xbf9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_info    0x00008fd2      0xc5d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_info    0x00009c2f      0x772 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_info    0x0000a3a1      0x85f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_info    0x0000ac00      0x944 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_info    0x0000b544      0xdf9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_info    0x0000c33d     0x4854 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_info    0x00010b91      0xfdc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_info    0x00011b6d       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+ .debug_info    0x00011b9d      0xdbb CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_info    0x00012958     0x2c52 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_info    0x000155aa     0x1d95 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_info    0x0001733f     0x1363 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_info    0x000186a2       0xe0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_info    0x00018782      0x10b E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_abbrev   0x00000000     0x3354
- .debug_abbrev  0x00000000      0x310 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_abbrev  0x00000310      0x159 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
- .debug_abbrev  0x00000469      0x21a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
- .debug_abbrev  0x00000683      0x20c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
- .debug_abbrev  0x0000088f      0x242 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_abbrev  0x00000ad1       0xd9 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_abbrev  0x00000baa      0x11a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
- .debug_abbrev  0x00000cc4      0x25e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
- .debug_abbrev  0x00000f22      0x1c0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
- .debug_abbrev  0x000010e2      0x271 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_abbrev  0x00001353      0x2c9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_abbrev  0x0000161c      0x261 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
- .debug_abbrev  0x0000187d      0x1d2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_abbrev  0x00001a4f      0x1e2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
- .debug_abbrev  0x00001c31      0x22c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_abbrev  0x00001e5d      0x31c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_abbrev  0x00002179      0x304 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .debug_abbrev  0x0000247d      0x2d2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .debug_abbrev  0x0000274f       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
- .debug_abbrev  0x00002773      0x21e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
- .debug_abbrev  0x00002991      0x2a7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
- .debug_abbrev  0x00002c38      0x2c5 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
- .debug_abbrev  0x00002efd      0x2f0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_abbrev  0x000031ed       0x9e E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_abbrev  0x0000328b       0xc9 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+.debug_abbrev   0x00000000     0x33be
+ .debug_abbrev  0x00000000      0x318 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_abbrev  0x00000318      0x159 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+ .debug_abbrev  0x00000471      0x21a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_abbrev  0x0000068b      0x20c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_abbrev  0x00000897      0x242 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_abbrev  0x00000ad9       0xd9 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_abbrev  0x00000bb2      0x11a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_abbrev  0x00000ccc      0x25e CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_abbrev  0x00000f2a      0x1c0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_abbrev  0x000010ea      0x271 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_abbrev  0x0000135b      0x2c9 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_abbrev  0x00001624      0x261 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_abbrev  0x00001885      0x1d2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_abbrev  0x00001a57      0x1e2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_abbrev  0x00001c39      0x22c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_abbrev  0x00001e65      0x31c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_abbrev  0x00002181      0x304 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_abbrev  0x00002485      0x2d2 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_abbrev  0x00002757       0x24 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+ .debug_abbrev  0x0000277b      0x21e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_abbrev  0x00002999      0x2a7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_abbrev  0x00002c40      0x2c5 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_abbrev  0x00002f05      0x352 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_abbrev  0x00003257       0x9e E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_abbrev  0x000032f5       0xc9 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_aranges  0x00000000     0x1478
+.debug_aranges  0x00000000     0x1490
  .debug_aranges
-                0x00000000       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x00000000       0x50 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .debug_aranges
-                0x00000040       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+                0x00000050       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
  .debug_aranges
-                0x00000060       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+                0x00000070       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
  .debug_aranges
-                0x00000090       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+                0x000000a0       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
  .debug_aranges
-                0x000000c0       0x88 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x000000d0       0x88 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_aranges
-                0x00000148       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+                0x00000158       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .debug_aranges
-                0x00000168       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+                0x00000178       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
  .debug_aranges
-                0x00000190      0x2a0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+                0x000001a0      0x2a0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
  .debug_aranges
-                0x00000430       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+                0x00000440       0x48 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
  .debug_aranges
-                0x00000478      0x148 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x00000488      0x148 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
  .debug_aranges
-                0x000005c0       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x000005d0       0x98 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
  .debug_aranges
-                0x00000658       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+                0x00000668       0xb0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
  .debug_aranges
-                0x00000708       0x58 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+                0x00000718       0x58 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .debug_aranges
-                0x00000760       0x90 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+                0x00000770       0x90 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
  .debug_aranges
-                0x000007f0      0x140 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+                0x00000800      0x140 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
  .debug_aranges
-                0x00000930      0x128 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x00000940      0x128 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
  .debug_aranges
-                0x00000a58      0x248 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x00000a68      0x248 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .debug_aranges
-                0x00000ca0       0xa8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x00000cb0       0xa8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .debug_aranges
-                0x00000d48       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+                0x00000d58       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
  .debug_aranges
-                0x00000d70       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+                0x00000d80       0x30 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
  .debug_aranges
-                0x00000da0      0x3e0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x00000db0      0x3e0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
  .debug_aranges
-                0x00001180      0x240 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x00001190      0x240 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
  .debug_aranges
-                0x000013c0       0x78 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x000013d0       0x80 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_aranges
-                0x00001438       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+                0x00001450       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
  .debug_aranges
-                0x00001458       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+                0x00001470       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
 .debug_rnglists
-                0x00000000     0x100d
+                0x00000000     0x101f
  .debug_rnglists
-                0x00000000       0x2e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                0x00000000       0x39 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
  .debug_rnglists
-                0x0000002e       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+                0x00000039       0x14 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
  .debug_rnglists
-                0x00000042       0x21 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+                0x0000004d       0x21 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
  .debug_rnglists
-                0x00000063       0x21 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+                0x0000006e       0x21 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
  .debug_rnglists
-                0x00000084       0x61 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                0x0000008f       0x61 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
  .debug_rnglists
-                0x000000e5       0x13 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+                0x000000f0       0x13 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
  .debug_rnglists
-                0x000000f8       0x1a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+                0x00000103       0x1a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
  .debug_rnglists
-                0x00000112      0x228 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+                0x0000011d      0x228 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
  .debug_rnglists
-                0x0000033a       0x35 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+                0x00000345       0x35 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
  .debug_rnglists
-                0x0000036f       0xf1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+                0x0000037a       0xf1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
  .debug_rnglists
-                0x00000460       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+                0x0000046b       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
  .debug_rnglists
-                0x000004d4       0x87 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+                0x000004df       0x87 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
  .debug_rnglists
-                0x0000055b       0x3f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+                0x00000566       0x3f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
  .debug_rnglists
-                0x0000059a       0x72 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+                0x000005a5       0x72 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
  .debug_rnglists
-                0x0000060c       0xf1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+                0x00000617       0xf1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
  .debug_rnglists
-                0x000006fd       0xda CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+                0x00000708       0xda CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
  .debug_rnglists
-                0x000007d7      0x1f7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+                0x000007e2      0x1f7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
  .debug_rnglists
-                0x000009ce       0x7f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+                0x000009d9       0x7f CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
  .debug_rnglists
-                0x00000a4d       0x19 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+                0x00000a58       0x19 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
  .debug_rnglists
-                0x00000a66       0x1f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+                0x00000a71       0x1f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
  .debug_rnglists
-                0x00000a85      0x32d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+                0x00000a90      0x32d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
  .debug_rnglists
-                0x00000db2      0x1cc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+                0x00000dbd      0x1cc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
  .debug_rnglists
-                0x00000f7e       0x69 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                0x00000f89       0x70 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
  .debug_rnglists
-                0x00000fe7       0x13 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+                0x00000ff9       0x13 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
  .debug_rnglists
-                0x00000ffa       0x13 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+                0x0000100c       0x13 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_macro    0x00000000    0x26ea1
- .debug_macro   0x00000000      0x243 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000243      0xade CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000d21      0x161 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000e82       0x2e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000eb0       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000ed8       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000efa       0x8e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000f88       0x51 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00000fd9      0x103 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000010dc       0x6a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00001146      0x1df CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00001325       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00001341       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00001363       0xfb CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0000145e     0x1011 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0000246f      0x11f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0000258e    0x18b8c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001b11a       0x6d CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001b187     0x3558 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001e6df      0x190 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001e86f       0x5c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001e8cb     0x171f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0001ffea      0x600 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000205ea      0x1b6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000207a0      0x34a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00020aea      0x53c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021026      0x18b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000211b1       0x43 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000211f4      0x23d CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021431      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021642      0x45c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021a9e      0x11c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021bba      0x22c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021de6       0x61 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021e47       0xa5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00021eec      0x122 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0002200e      0x3d1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000223df      0xc0b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00022fea      0x718 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00023702      0x693 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00023d95       0xa6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00023e3b      0x358 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00024193       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000241d3       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x000241f5       0x4c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x00024241       0x3a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_macro   0x0002427b      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
- .debug_macro   0x0002447b      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
- .debug_macro   0x0002467b      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
- .debug_macro   0x0002487b      0x230 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_macro   0x00024aab      0x1f6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_macro   0x00024ca1      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
- .debug_macro   0x00024e88      0x2b3 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
- .debug_macro   0x0002513b      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
- .debug_macro   0x00025322      0x235 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_macro   0x00025557      0x229 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_macro   0x00025780      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
- .debug_macro   0x00025991      0x1ee CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_macro   0x00025b7f      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
- .debug_macro   0x00025d66      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_macro   0x00025f77      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_macro   0x0002615e      0x212 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .debug_macro   0x00026370      0x1f3 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .debug_macro   0x00026563      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
- .debug_macro   0x00026763      0x1ef CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
- .debug_macro   0x00026952      0x1ed CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
- .debug_macro   0x00026b3f      0x2be CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_macro   0x00026dfd       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_macro   0x00026e71       0x10 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_macro   0x00026e81       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+.debug_macro    0x00000000    0x26ee9
+ .debug_macro   0x00000000      0x267 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000267      0xade CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000d45      0x161 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000ea6       0x2e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000ed4       0x28 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000efc       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000f1e       0x8e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000fac       0x51 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00000ffd      0x103 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00001100       0x6a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0000116a      0x1df CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00001349       0x1c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00001365       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00001387       0xfb CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00001482     0x1011 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00002493      0x11f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000025b2    0x18b8c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0001b13e       0x6d CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0001b1ab     0x3558 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0001e703      0x190 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0001e893       0x5c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0001e8ef     0x171f CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0002000e      0x600 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0002060e      0x1b6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000207c4      0x34a CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00020b0e      0x53c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0002104a      0x18b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000211d5       0x43 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021218      0x23d CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021455      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021666      0x45c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021ac2      0x11c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021bde      0x22c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021e0a       0x61 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021e6b       0xa5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00021f10      0x122 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00022032      0x3d1 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00022403      0xc0b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x0002300e      0x718 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00023726      0x693 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00023db9       0xa6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00023e5f      0x358 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000241b7       0x40 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000241f7       0x22 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00024219       0x7c CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x00024295       0x2e CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_macro   0x000242c3      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+ .debug_macro   0x000244c3      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_macro   0x000246c3      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_macro   0x000248c3      0x230 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_macro   0x00024af3      0x1f6 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_macro   0x00024ce9      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_macro   0x00024ed0      0x2b3 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_macro   0x00025183      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_macro   0x0002536a      0x235 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_macro   0x0002559f      0x229 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_macro   0x000257c8      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_macro   0x000259d9      0x1ee CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_macro   0x00025bc7      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_macro   0x00025dae      0x211 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_macro   0x00025fbf      0x1e7 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_macro   0x000261a6      0x212 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_macro   0x000263b8      0x1f3 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_macro   0x000265ab      0x200 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_macro   0x000267ab      0x1ef CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_macro   0x0002699a      0x1ed CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_macro   0x00026b87      0x2be CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_macro   0x00026e45       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_macro   0x00026eb9       0x10 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_macro   0x00026ec9       0x20 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
 
-.debug_line     0x00000000    0x1b015
- .debug_line    0x00000000      0xaed CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_line    0x00000aed      0x899 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
- .debug_line    0x00001386      0x909 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
- .debug_line    0x00001c8f      0x91b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
- .debug_line    0x000025aa      0xa3b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_line    0x00002fe5      0x869 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_line    0x0000384e      0x8d5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
- .debug_line    0x00004123     0x3841 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
- .debug_line    0x00007964      0x9ce CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
- .debug_line    0x00008332      0xca1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_line    0x00008fd3     0x1124 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_line    0x0000a0f7     0x139a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
- .debug_line    0x0000b491      0xc8d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_line    0x0000c11e      0xfb6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
- .debug_line    0x0000d0d4      0xe00 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_line    0x0000ded4      0xe06 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_line    0x0000ecda     0x3703 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .debug_line    0x000123dd      0xdd6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .debug_line    0x000131b3       0x7b CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
- .debug_line    0x0001322e      0x8b5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
- .debug_line    0x00013ae3     0x41ee CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
- .debug_line    0x00017cd1     0x21a8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
- .debug_line    0x00019e79      0xeae CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_line    0x0001ad27      0x17e E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_line    0x0001aea5      0x170 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+.debug_line     0x00000000    0x1b08b
+ .debug_line    0x00000000      0xa95 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_line    0x00000a95      0x899 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+ .debug_line    0x0000132e      0x909 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_line    0x00001c37      0x91b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_line    0x00002552      0xa3b CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_line    0x00002f8d      0x869 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_line    0x000037f6      0x8d5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_line    0x000040cb     0x3841 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_line    0x0000790c      0x9ce CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_line    0x000082da      0xca1 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_line    0x00008f7b     0x1124 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_line    0x0000a09f     0x139a CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_line    0x0000b439      0xc8d CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_line    0x0000c0c6      0xfb6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_line    0x0000d07c      0xe00 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_line    0x0000de7c      0xe06 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_line    0x0000ec82     0x3703 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_line    0x00012385      0xdd6 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_line    0x0001315b       0x7b CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+ .debug_line    0x000131d6      0x8b5 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_line    0x00013a8b     0x41ee CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_line    0x00017c79     0x21a8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_line    0x00019e21      0xf7c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_line    0x0001ad9d      0x17e E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_line    0x0001af1b      0x170 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
-.debug_str      0x00000000    0xfed09
- .debug_str     0x00000000    0xfed09 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
-                              0xf626c (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+.debug_str      0x00000000    0xfed94
+ .debug_str     0x00000000    0xfed94 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+                              0xf627a (size before relaxing)
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
                               0xf4cfd (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
                               0xf54dc (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
                               0xf54ef (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
-                              0xf58b6 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+                              0xf594c (size before relaxing)
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
                               0xf4c53 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
                               0xf4bfe (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
                               0xf5f08 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
                               0xf521d (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
                               0xf5910 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
                               0xf531d (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
                               0xf5347 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
                               0xf4d89 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
                               0xf4fd8 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
                               0xf50ec (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
                               0xf55cc (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
                               0xf5bb9 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
                               0xf53b7 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/startup_stm32g474xx.s.obj
                                  0xf3 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
                               0xf593b (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
                               0xf60fc (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
                               0xf5d70 (size before relaxing)
- .debug_str     0x000fed09        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
-                              0xf843f (size before relaxing)
- .debug_str     0x000fed09        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_str     0x000fed94        0x0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+                              0xf84a7 (size before relaxing)
+ .debug_str     0x000fed94        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
                                 0x211 (size before relaxing)
- .debug_str     0x000fed09        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+ .debug_str     0x000fed94        0x0 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
                                 0x272 (size before relaxing)
 
-.debug_frame    0x00000000     0x5578
- .debug_frame   0x00000000       0xb8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
- .debug_frame   0x000000b8       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
- .debug_frame   0x000000ec       0x78 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
- .debug_frame   0x00000164       0x78 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
- .debug_frame   0x000001dc      0x1a8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
- .debug_frame   0x00000384       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
- .debug_frame   0x000003b8       0x58 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
- .debug_frame   0x00000410      0xc38 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
- .debug_frame   0x00001048      0x100 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
- .debug_frame   0x00001148      0x500 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
- .debug_frame   0x00001648      0x23c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
- .debug_frame   0x00001884      0x2ac CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
- .debug_frame   0x00001b30      0x14c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
- .debug_frame   0x00001c7c      0x24c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
- .debug_frame   0x00001ec8      0x4fc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
- .debug_frame   0x000023c4      0x4e8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
- .debug_frame   0x000028ac      0xa94 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
- .debug_frame   0x00003340      0x2c0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
- .debug_frame   0x00003600       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
- .debug_frame   0x00003674     0x1220 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
- .debug_frame   0x00004894      0xa70 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
- .debug_frame   0x00005304      0x1c8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
- .debug_frame   0x000054cc       0x2c E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
- .debug_frame   0x000054f8       0x34 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
- .debug_frame   0x0000552c       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
- .debug_frame   0x0000554c       0x2c E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
+.debug_frame    0x00000000     0x55e0
+ .debug_frame   0x00000000       0xec CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/main_master.c.obj
+ .debug_frame   0x000000ec       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/gpio.c.obj
+ .debug_frame   0x00000120       0x78 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/i2c.c.obj
+ .debug_frame   0x00000198       0x78 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/usart.c.obj
+ .debug_frame   0x00000210      0x1a8 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_it.c.obj
+ .debug_frame   0x000003b8       0x34 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/stm32g4xx_hal_msp.c.obj
+ .debug_frame   0x000003ec       0x58 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/system_stm32g4xx.c.obj
+ .debug_frame   0x00000444      0xc38 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c.c.obj
+ .debug_frame   0x0000107c      0x100 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_i2c_ex.c.obj
+ .debug_frame   0x0000117c      0x500 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c.obj
+ .debug_frame   0x0000167c      0x23c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c.obj
+ .debug_frame   0x000018b8      0x2ac CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c.obj
+ .debug_frame   0x00001b64      0x14c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c.obj
+ .debug_frame   0x00001cb0      0x24c CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c.obj
+ .debug_frame   0x00001efc      0x4fc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c.obj
+ .debug_frame   0x000023f8      0x4e8 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c.obj
+ .debug_frame   0x000028e0      0xa94 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c.obj
+ .debug_frame   0x00003374      0x2c0 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c.obj
+ .debug_frame   0x00003634       0x74 CMakeFiles/Studienarbeit_Kommunikation.dir/Core/Src/tim.c.obj
+ .debug_frame   0x000036a8     0x1220 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c.obj
+ .debug_frame   0x000048c8      0xa70 CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c.obj
+ .debug_frame   0x00005338      0x1fc CMakeFiles/Studienarbeit_Kommunikation.dir/Drivers/Modbus/modbus_rtu.c.obj
+ .debug_frame   0x00005534       0x2c E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_aeabi_uldivmod.o)
+ .debug_frame   0x00005560       0x34 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m+fp/hard\libgcc.a(_udivmoddi4.o)
+ .debug_frame   0x00005594       0x20 E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-memset.o)
+ .debug_frame   0x000055b4       0x2c E:/Programme/STI/STM32CubeCLT/STM32CubeCLT_1.20.0/GNU-tools-for-STM32/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libg_nano.a(libc_a-init.o)
 
 .debug_line_str
                 0x00000000       0xd7

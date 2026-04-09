@@ -60,22 +60,14 @@
 #define APP_RESPONSE_TIMEOUT_MS   1000
 
 /* ============================================================================
- *  REGISTER-MAP DEFINITION (Bidirektionaler Test)
+ *  REGISTER-MAP DEFINITION (T3100)
  * ============================================================================
  *
- * Adresse 0x0000 = REG_MASTER_CMD
- *   Der Master schreibt hier rein, wie lange die Slave-LED leuchten soll.
- *   (z.B. 3000 für 3 Sekunden wenn der Master-Button gedrückt wird)
- *
- * Adresse 0x0001 = REG_SLAVE_BTN_CNT
- *   Der Slave erhöht diesen Zähler bei jedem eigenen Tastendruck.
- *   Der Master liest (polled) dieses Register ständig um den Druck zu erkennen.
+ * Die Registernamen (REG_WUNSCH, REG_ERLAUBNIS etc.) sind jetzt in 
+ * modbus_rtu.h definiert.
  */
 
-#define APP_REGISTER_MAP_SIZE     2
-
-#define REG_MASTER_CMD            0x0000  /**< Master sendet: LED-Leuchtdauer (ms) */
-#define REG_SLAVE_BTN_CNT         0x0001  /**< Slave sendet: Tastenzähler */
+#define APP_REGISTER_MAP_SIZE     20
 
 /* ============================================================================
  *  TIMING KONFIGURATION

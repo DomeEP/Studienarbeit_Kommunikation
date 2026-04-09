@@ -34,7 +34,25 @@
 #define MODBUS_MAX_ADU_SIZE   256
 
 // Timeout Settings (in Milliseconds)
-#define MODBUS_RESPONSE_TIMEOUT_MS 100  // Schneller Timeout (für 10Hz Polling ideal)
+#define MODBUS_RESPONSE_TIMEOUT_MS 1000 // 1 Sekunde extrem liberaler Timeout
+#define MODBUS_TURNAROUND_DELAY_MS 5   // Minimum Turnaround Delay für den Slave
+
+/* ================================================================================== */
+/*                            T3100 SYSTEM REGISTERS                                  */
+/* ================================================================================== */
+
+// Betriebsmodi (Wunsch / Erlaubnis)
+#define MODE_STANDBY   0
+#define MODE_CHARGE    1
+#define MODE_DISCHARGE 2
+
+// SLAVE -> MASTER (Read Holding Registers - FC03)
+#define REG_WUNSCH     0  // Desired Mode
+#define REG_EMERGENCY  1  // Error Flag
+
+// MASTER -> SLAVE (Write Single Register - FC06)
+#define REG_ERLAUBNIS  10 // Allowed Mode
+#define REG_SAFETY_STOP 11 // System Notabschaltung
 
 /* ================================================================================== */
 /*                                 DEFINITIONS                                        */
@@ -178,6 +196,7 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 /*                             INTERRUPT HANDLERS                                     */
 /* ================================================================================== */
 // --- Interrupt Handlers (Call these from stm32g4xx_it.c) ---
+void Modbus_IRQHandler_RxEvent(Modbus_Handle_t *hmodbus, uint16_t Size);
 void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus);
 void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus);
 void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus);

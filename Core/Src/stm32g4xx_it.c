@@ -225,13 +225,13 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /**
-  * @brief  Rx Transfer completed callback (called by HAL after each byte)
+  * @brief  Rx Event callback (called by HAL on IDLE Line detection or Buffer Full)
   */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
   if (huart->Instance == USART2)
   {
-    Modbus_IRQHandler_RxCplt(&hmodbus);
+    Modbus_IRQHandler_RxEvent(&hmodbus, Size);
   }
 }
 

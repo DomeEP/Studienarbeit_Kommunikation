@@ -1,7 +1,6 @@
-/* USER CODE BEGIN Header */
 /**
-  * @file    main.c (SLAVE - BIDIREKTIONALER MODBUS)
-  * @brief   Empfängt Modbus-Befehle und speichert Button-Clicks im Register
+  * @file    main_slave.c (SLAVE - T3100 VOTING NODE)
+  * @brief   Modbus-Slave mit Wunsch-Voting und Erlaubnis-LED-Feedback
   */
 #include "main.h"
 #include "i2c.h"
@@ -15,26 +14,18 @@
 Modbus_Handle_t hmodbus;
 uint16_t register_map[APP_REGISTER_MAP_SIZE] = {0};
 
-/* --- Timers & State --- */
-uint32_t led_off_tick = 0;
-uint8_t led_is_on = 0;
-
+/* --- Button State --- */
 uint32_t last_btn_tick = 0;
-GPIO_PinState last_btn_state = GPIO_PIN_SET;
-uint16_t slave_btn_cnt = 0;
 
 void SystemClock_Config(void);
 
-/* Wird aufgerufen wenn der Master ein Write (FC06) sendet */
+/* Wird aufgerufen wenn der Master ein Write (FC06/FC16) sendet */
 void App_Slave_OnRegisterWrite(uint16_t reg_addr, uint16_t value) {
-    if (reg_addr == REG_MASTER_CMD) {
-        /* Master hat uns geschickt, wie lange die LED an sein soll (z.B. 3000ms) */
-        HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET); // LED AN (Active-HIGH)
-        led_off_tick = HAL_GetTick() + value;
-        led_is_on = 1;
-        
-        /* Register wieder leeren (verhindert erneutes auslesen von alten Werten) */
-        register_map[REG_MASTER_CMD] = 0;
+    // Der Master schreibt den erlaubten Status in REG_ERLAUBNIS!
+    // register_map[reg_addr] wurde bereits durch die Modbus-Lib aktualisiert.
+    if (reg_addr == REG_SAFETY_STOP && value == 1) {
+        // Notaus! Alles verweigern.
+        register_map[REG_ERLAUBNIS] = MODE_STANDBY;
     }
 }
 
@@ -63,39 +54,55 @@ int main(void)
   HAL_GPIO_Init(BTN_intern_GPIO_Port, &GPIO_InitStruct);
 
   /* Boot-Blinken */
-  for (int i=0; i<6; i++) {
-      HAL_GPIO_TogglePin(LED_intern_GPIO_Port, LED_intern_Pin);
+  for(int i=0; i<3; i++) {
+      HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
+      HAL_Delay(100);
+      HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
       HAL_Delay(100);
   }
-  // LED AUS (Active-HIGH -> RESET = AUS)
-  HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
+
+  /* Starte im Standby Mode */
+  register_map[REG_WUNSCH] = MODE_STANDBY;
+  register_map[REG_ERLAUBNIS] = MODE_STANDBY;
+
+  uint32_t led_blink_tick = 0;
+  uint8_t led_state = 0;
 
   while (1)
   {
-    /* 1. MODBUS LAUSCHEN */
+    /* 1. Modbus State Machine aufrechterhalten */
     Modbus_Slave_Listen(&hmodbus, register_map, APP_REGISTER_MAP_SIZE);
 
-    /* 2. EIGENEN BUTTON PRÜFEN (Intern PC13) -> Active-HIGH */
+    /* 2. KNOPF PRÜFEN (Intern PC13 -> Active HIGH) zum Durchschalten des eigenen Wunsches */
     GPIO_PinState current = HAL_GPIO_ReadPin(BTN_intern_GPIO_Port, BTN_intern_Pin);
-
-    /* Wenn Pin auf 3.3V gezogen wird (Active-HIGH) */
-    if (current == GPIO_PIN_SET && (HAL_GetTick() - last_btn_tick > 500)) {
+    if (current == GPIO_PIN_SET && (HAL_GetTick() - last_btn_tick > 300)) {
         last_btn_tick = HAL_GetTick();
 
-        /* Eigene LED für 1s an (Active-HIGH) */
-        HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET); // LED AN
-        led_off_tick = HAL_GetTick() + 1000;
-        led_is_on = 1;
-
-        /* Zähler hochsetzen und in Register packen -> der Master liest das per Polling! */
-        slave_btn_cnt++;
-        register_map[REG_SLAVE_BTN_CNT] = slave_btn_cnt;
+        // Zyklisch durchschalten: Standby (0) -> Charge (1) -> Discharge (2) -> Standby (0)
+        uint16_t neuer_wunsch = register_map[REG_WUNSCH] + 1;
+        if (neuer_wunsch > 2) neuer_wunsch = 0;
+        
+        register_map[REG_WUNSCH] = neuer_wunsch;
     }
 
-    /* 3. LED TIMER PRÜFEN */
-    if (led_is_on && HAL_GetTick() >= led_off_tick) {
-        HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET); // LED AUS (Active-HIGH)
-        led_is_on = 0;
+    /* 3. LED ANSTEUERUNG BASIEREND AUF VOM MASTER ***ERLAUBTEN*** STATUS! */
+    uint16_t erlaubnis = register_map[REG_ERLAUBNIS];
+    
+    if (erlaubnis == MODE_STANDBY) {
+        // Standby = Aus
+        HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
+    } 
+    else if (erlaubnis == MODE_CHARGE) {
+        // Charge = Dauerhaft An
+        HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
+    } 
+    else if (erlaubnis == MODE_DISCHARGE) {
+        // Discharge = Blinken (jede 200ms)
+        if (HAL_GetTick() - led_blink_tick > 200) {
+            led_blink_tick = HAL_GetTick();
+            led_state = !led_state;
+            HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, led_state ? GPIO_PIN_SET : GPIO_PIN_RESET);
+        }
     }
   }
 }

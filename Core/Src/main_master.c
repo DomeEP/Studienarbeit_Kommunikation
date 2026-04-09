@@ -1,7 +1,10 @@
-/* USER CODE BEGIN Header */
 /**
-  * @file    main.c (MASTER - BIDIREKTIONALER MODBUS)
-  * @brief   Implementiert die Master-Logik für Buttons & LEDs via FC03/FC06
+  * @file    main_master.c (MASTER - T3100 ARBITER)
+  * @brief   Polling-basierter Modbus-Master mit Voting-Logik (Arbiter)
+  *
+  * Der Master pollt zyklisch alle Slaves, wertet deren "Wunsch"-Register
+  * aus und sendet den erlaubten Systemstatus zurück. Bei Fehlern wird
+  * automatisch ein Safety-Stop ausgelöst.
   */
 #include "main.h"
 #include "i2c.h"
@@ -14,48 +17,39 @@
 
 Modbus_Handle_t hmodbus;
 
-typedef enum {
-    MSTATE_IDLE,
-    MSTATE_POLLING_SLAVE,
-    MSTATE_SENDING_CMD
-} MasterState_t;
-MasterState_t master_state = MSTATE_IDLE;
-
-/* --- Timers & State --- */
-uint32_t led_off_tick = 0;
-uint8_t led_is_on = 0;
-
-uint32_t last_btn_tick = 0;
-GPIO_PinState last_btn_state = GPIO_PIN_SET;
-
-uint32_t last_poll_tick = 0;
-uint16_t last_slave_cnt = 0;
-uint8_t first_poll_done = 0;
-
 void SystemClock_Config(void);
+
+/* --- LED Hilfsfunktionen --- */
+static void led_on(void)  { HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET); }
+static void led_off(void) { HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET); }
+
+uint16_t register_map[APP_REGISTER_MAP_SIZE] = {0};
+
+/* --- Arbiter States --- */
+#define ARBITER_STATE_POLL_SLAVE   0
+#define ARBITER_STATE_WAIT_POLL    1
+#define ARBITER_STATE_WRITE_SLAVE  2
+#define ARBITER_STATE_WAIT_WRITE   3
+#define ARBITER_STATE_DELAY        4
+#define ARBITER_STATE_ERROR        99
+
+volatile uint8_t arbiter_state = ARBITER_STATE_POLL_SLAVE;
+uint32_t arbiter_delay_tick = 0;
+uint16_t current_allowed_mode = MODE_STANDBY;
 
 /* --- Modbus Callbacks --- */
 void OnMasterComplete(void) {
-    if (master_state == MSTATE_POLLING_SLAVE) {
-        uint16_t new_cnt = (hmodbus.rx_buffer[3] << 8) | hmodbus.rx_buffer[4];
-        
-        if (first_poll_done && (new_cnt != last_slave_cnt)) {
-            /* Slave-Zähler hat sich erhöht -> Slave Button wurde gedrückt! -> 1s leuchten */
-            HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET); // LED AN (Active-HIGH)
-            led_off_tick = HAL_GetTick() + 1000;
-            led_is_on = 1;
-        }
-        last_slave_cnt = new_cnt;
-        first_poll_done = 1;
+    if (arbiter_state == ARBITER_STATE_WAIT_POLL) {
+        arbiter_state = ARBITER_STATE_WRITE_SLAVE;
+    } else if (arbiter_state == ARBITER_STATE_WAIT_WRITE) {
+        arbiter_state = ARBITER_STATE_DELAY;
     }
-    master_state = MSTATE_IDLE;
 }
 
 void OnMasterError(Modbus_Error_t error) {
-    (void)error;
-    master_state = MSTATE_IDLE; /* Fehler ignorieren, beim nächsten Polling neu versuchen */
+    // Bei jedem Fehler sofort in den Notaus-Write-Cycle springen
+    arbiter_state = ARBITER_STATE_ERROR;
 }
-
 
 int main(void)
 {
@@ -75,66 +69,66 @@ int main(void)
   hmodbus.master_complete_cb = OnMasterComplete;
   hmodbus.error_cb = OnMasterError;
 
-  /* Erzwungener PULLDOWN für PC13, da das Board offensichtlich Active-HIGH nutzt! */
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-  GPIO_InitStruct.Pin = BTN_intern_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(BTN_intern_GPIO_Port, &GPIO_InitStruct);
-
-  /* Boot-Blinken */
-  for (int i=0; i<6; i++) {
-      HAL_GPIO_TogglePin(LED_intern_GPIO_Port, LED_intern_Pin);
-      HAL_Delay(100);
-  }
-  // LED INITIAL AUS (Active-HIGH -> RESET = AUS)
-  HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
-
-  uint8_t pending_master_cmd = 0;
-
   while (1)
   {
-      // Active-HIGH: Wenn Pin auf 3.3V (HIGH / SET) gezogen wird = Gedrückt!
-      GPIO_PinState current = HAL_GPIO_ReadPin(BTN_intern_GPIO_Port, BTN_intern_Pin);
+      Modbus_Master_Process(&hmodbus);
 
-      if (current == GPIO_PIN_SET && (HAL_GetTick() - last_btn_tick > 500)) {
-          last_btn_tick = HAL_GetTick(); // Debounce Timeout reset
+      switch (arbiter_state) {
+          case ARBITER_STATE_POLL_SLAVE:
+              // Lese Wunsch (Reg 0) und Emergency (Reg 1) von Inverter (ID=1)
+              Modbus_Master_Request(&hmodbus, 1, MB_FC_READ_HOLDING_REGISTERS, REG_WUNSCH, 2);
+              arbiter_state = ARBITER_STATE_WAIT_POLL;
+              break;
 
-          /* Eigene LED für 3s an (Active-HIGH -> SET = AN) */
-          HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET); 
-          led_off_tick = HAL_GetTick() + 3000;
-          led_is_on = 1;
+          case ARBITER_STATE_WAIT_POLL:
+              // Warten auf Callback...
+              break;
 
-          /* Merken, dass wir unbedingt ein FC06 senden müssen! */
-          pending_master_cmd = 1;
-      }
+          case ARBITER_STATE_WRITE_SLAVE:
+              // Evaluate Logic
+              if (register_map[1] == 1) { 
+                  // Emergency aktiv!
+                  current_allowed_mode = MODE_STANDBY;
+                  led_off();
+              } else {
+                  // In diesem Setup mit nur 1 Slave diktiert der Inverter-Wunsch das System.
+                  // Bei mehreren Slaves würden wir hier mit && Verknüpfen prüfen.
+                  current_allowed_mode = register_map[0]; 
+                  
+                  if (current_allowed_mode == MODE_CHARGE) led_on();
+                  else led_off(); // LED aus für Standby / blinkt beim Slave für Discharge
+              }
 
-      /* 2. PRIORITÄTS-MANAGEMENT FÜR DEN BUS */
-      if (master_state == MSTATE_IDLE) {
-          if (pending_master_cmd) {
-              /* Prio 1: Unser eigener Tastendruck muss verschickt werden! */
-              Modbus_Master_Request(&hmodbus, 1, MB_FC_WRITE_SINGLE_REGISTER, REG_MASTER_CMD, 3000);
-              master_state = MSTATE_SENDING_CMD;
-              pending_master_cmd = 0;
-              last_poll_tick = HAL_GetTick(); // Timer zurücksetzen, um nicht sofort danach zu pollen
-          }
-          else if (HAL_GetTick() - last_poll_tick >= 100) {
-              /* Prio 2: Polling, ob der Slave-Button gedrückt wurde */
-              Modbus_Master_Request(&hmodbus, 1, MB_FC_READ_HOLDING_REGISTERS, REG_SLAVE_BTN_CNT, 1);
-              master_state = MSTATE_POLLING_SLAVE;
-              last_poll_tick = HAL_GetTick();
-          }
-      }
+              // Schreibe Erlaubnis (Reg 10) zurück
+              Modbus_Master_Request(&hmodbus, 1, MB_FC_WRITE_SINGLE_REGISTER, REG_ERLAUBNIS, current_allowed_mode);
+              arbiter_state = ARBITER_STATE_WAIT_WRITE;
+              break;
 
-      /* 3. MODBUS BEDIENEN */
-      if (master_state != MSTATE_IDLE) {
-          Modbus_Master_Process(&hmodbus);
-      }
+          case ARBITER_STATE_WAIT_WRITE:
+              // Warten auf Callback...
+              break;
 
-      /* 4. LED TIMER PRÜFEN */
-      if (led_is_on && HAL_GetTick() >= led_off_tick) {
-          HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET); // LED AUS (RESET = AUS)
-          led_is_on = 0;
+          case ARBITER_STATE_DELAY:
+              arbiter_delay_tick = HAL_GetTick();
+              arbiter_state = 5; // Delay state
+              break;
+              
+          case 5:
+              if (HAL_GetTick() - arbiter_delay_tick > 100) { // 10 Hz Polling
+                  arbiter_state = ARBITER_STATE_POLL_SLAVE;
+              }
+              break;
+
+          case ARBITER_STATE_ERROR:
+              // Sende harten Emergency Stop an alle (oder an Inverter) wenn Timeout
+              // Warte kurz damit der Bus frei wird
+              HAL_Delay(50);
+              Modbus_Master_Request(&hmodbus, 1, MB_FC_WRITE_SINGLE_REGISTER, REG_SAFETY_STOP, 1);
+              current_allowed_mode = MODE_STANDBY;
+              led_off();
+              arbiter_delay_tick = HAL_GetTick();
+              arbiter_state = 5; // Gehe danach in Delay
+              break;
       }
   }
 } // End of main()
