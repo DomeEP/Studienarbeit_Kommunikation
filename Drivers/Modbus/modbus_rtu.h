@@ -49,6 +49,7 @@
 // SLAVE -> MASTER (Read Holding Registers - FC03)
 #define REG_WUNSCH     0  // Desired Mode
 #define REG_EMERGENCY  1  // Error Flag
+#define REG_NODE_TYPE  2  // Inverter = 1, DC/DC = 2
 
 // MASTER -> SLAVE (Write Single Register - FC06)
 #define REG_ERLAUBNIS  10 // Allowed Mode

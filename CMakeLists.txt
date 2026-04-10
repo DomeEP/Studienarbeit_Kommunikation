@@ -77,6 +77,12 @@ if(USE_MODBUS)
         Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c
         Drivers/Modbus/modbus_rtu.c
     )
+    if(BOARD_ROLE STREQUAL "slave")
+        list(APPEND SOURCES Drivers/SlaveNode/slave_node.c)
+    endif()
+    if(BOARD_ROLE STREQUAL "master")
+        list(APPEND SOURCES Drivers/Arbiter/system_arbiter.c)
+    endif()
 endif()
 
 # Include directories
@@ -87,6 +93,8 @@ set(INCLUDES
     Drivers/CMSIS/Device/ST/STM32G4xx/Include
     Drivers/CMSIS/Include
     Drivers/Modbus
+    Drivers/SlaveNode
+    Drivers/Arbiter
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

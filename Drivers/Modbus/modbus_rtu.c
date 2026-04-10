@@ -272,17 +272,22 @@ Modbus_Error_t Modbus_Master_Process(Modbus_Handle_t *hmodbus) {
 
         // PDU verarbeiten (nur FC03 implementiert im Master für dieses Beispiel)
         if (hmodbus->pending_func_code == MB_FC_READ_HOLDING_REGISTERS) {
-            // Für Simplicity: Wir schreiben den ersten erhaltenen Registerwert direkt in den RAM
-            // In einer echten Lib würde man pending_start_addr usw. tracken.
             extern uint16_t register_map[]; 
             
-            // Angenommen, wir lesen 2 Register (Wunsch & Emergency):
-            // rx_buffer[2] ist Byte-Count. rx_buffer[3/4] = Reg 1, rx_buffer[5/6] = Reg 2
-            register_map[0] = (hmodbus->rx_buffer[3] << 8) | hmodbus->rx_buffer[4];
-            
+            // Byte-Count
             uint8_t byte_count = hmodbus->rx_buffer[2];
+            
+            // REG 0 (Wunsch)
+            if (byte_count >= 2) {
+                register_map[0] = (hmodbus->rx_buffer[3] << 8) | hmodbus->rx_buffer[4];
+            }
+            // REG 1 (Emergency)
             if (byte_count >= 4) {
                 register_map[1] = (hmodbus->rx_buffer[5] << 8) | hmodbus->rx_buffer[6];
+            }
+            // REG 2 (Node Type)
+            if (byte_count >= 6) {
+                register_map[2] = (hmodbus->rx_buffer[7] << 8) | hmodbus->rx_buffer[8];
             }
         }
 
