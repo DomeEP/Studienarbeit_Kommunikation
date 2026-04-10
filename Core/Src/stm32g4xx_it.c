@@ -62,7 +62,7 @@ extern Modbus_Handle_t hmodbus;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern PCD_HandleTypeDef hpcd_USB_FS;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -205,6 +205,20 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32g4xx.s).                    */
 /******************************************************************************/
 
+/**
+  * @brief This function handles USB low priority interrupt remap.
+  */
+void USB_LP_IRQHandler(void)
+{
+  /* USER CODE BEGIN USB_LP_IRQn 0 */
+
+  /* USER CODE END USB_LP_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_FS);
+  /* USER CODE BEGIN USB_LP_IRQn 1 */
+
+  /* USER CODE END USB_LP_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 
 #ifdef USE_MODBUS
@@ -225,13 +239,13 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /**
-  * @brief  Rx Event callback (called by HAL on IDLE Line detection or Buffer Full)
+  * @brief  Rx Transfer completed callback (called by HAL on character received)
   */
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   if (huart->Instance == USART2)
   {
-    Modbus_IRQHandler_RxEvent(&hmodbus, Size);
+    Modbus_IRQHandler_RxCplt(&hmodbus);
   }
 }
 

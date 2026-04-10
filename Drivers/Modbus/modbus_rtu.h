@@ -196,8 +196,7 @@ void Modbus_Slave_Listen(Modbus_Handle_t *hmodbus, uint16_t *register_map, uint1
 /* ================================================================================== */
 /*                             INTERRUPT HANDLERS                                     */
 /* ================================================================================== */
-// --- Interrupt Handlers (Call these from stm32g4xx_it.c) ---
-void Modbus_IRQHandler_RxEvent(Modbus_Handle_t *hmodbus, uint16_t Size);
+// --- Interrupt Handlers (Call diese aus stm32g4xx_it.c) ---
 void Modbus_IRQHandler_RxCplt(Modbus_Handle_t *hmodbus);
 void Modbus_IRQHandler_Timeout(Modbus_Handle_t *hmodbus);
 void Modbus_IRQHandler_Error(Modbus_Handle_t *hmodbus);

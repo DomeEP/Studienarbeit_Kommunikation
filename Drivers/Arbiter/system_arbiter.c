@@ -1,29 +1,29 @@
 /**
- * @file system_arbiter.c
- * @brief Implementierung des System Arbiters mit Auto-Discovery,
- *        Inverter-Priorität und ITM/SWO Live-Dashboard.
- */
+  * @file system_arbiter.c
+  * @brief Implementierung des System Arbiters mit Auto-Discovery,
+  *        Inverter-Priorität und USB CDC Live-Dashboard.
+  */
 
 #include "system_arbiter.h"
 #include "modbus_rtu.h"
 #include "app_config.h"
 #include <string.h>
 #include <stdio.h>
+#include "usbd_cdc_if.h"
 
 /* ================================================================================== */
-/*                            ITM / SWO DEBUG OUTPUT                                  */
+/*                            USB CDC DEBUG OUTPUT                                    */
 /* ================================================================================== */
 
 /**
- * ITM_SendChar schreibt ein einzelnes Zeichen auf den SWO-Debug-Pin.
- * Das funktioniert über das gleiche USB-Kabel, mit dem auch geflasht wird.
- * In der STM32CubeIDE kann man den Output unter:
- *   Window -> Show View -> SWV -> SWV ITM Data Console
- * ansehen (Port 0 aktivieren, SWV Clock = 16 MHz bei HSI).
+ * USB_Print schreibt einen formatierten String über den virtuellen COM-Port an den PC.
  */
-static void ITM_Print(const char *str) {
-    while (*str) {
-        ITM_SendChar(*str++);
+static void USB_Print(const char *str) {
+    if (str == NULL) return;
+    uint32_t start = HAL_GetTick();
+    // Warte bis USB bereit ist (max 2ms Timeout)
+    while (CDC_Transmit_FS((uint8_t*)str, strlen(str)) == USBD_BUSY) {
+        if (HAL_GetTick() - start > 2) break;
     }
 }
 
@@ -87,6 +87,10 @@ static bool wakeup_requested = false;
 static bool discovery_waiting = false;
 static uint32_t discovery_send_tick = 0;
 
+// Resilience: Fehlerzähler für normales Polling
+static uint8_t polling_error_count = 0;
+#define MAX_POLLING_RETRIES 3
+
 /* ================================================================================== */
 /*                             MODBUS CALLBACKS                                       */
 /* ================================================================================== */
@@ -106,14 +110,14 @@ static void OnMasterComplete(void) {
             if (register_map[2] == NODE_TYPE_INVERTER) type_str = "INV";
             else if (register_map[2] == NODE_TYPE_DCDC) type_str = "DCDC";
 
-            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Found Slave ID %d -> Type: %s\n", discovery_current_id, type_str);
-            ITM_Print(itm_buf);
+            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Found Slave ID %d -> Type: %s\r\n", discovery_current_id, type_str);
+            USB_Print(itm_buf);
         }
         discovery_waiting = false;
         discovery_current_id++;
         if (discovery_current_id > DISCOVERY_MAX_ID) {
-            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\n", slave_count);
-            ITM_Print(itm_buf);
+            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\r\n", slave_count);
+            USB_Print(itm_buf);
             target_idx = 0;
             current_state = AS_DELAY;
             delay_tick = HAL_GetTick();
@@ -129,6 +133,9 @@ static void OnMasterComplete(void) {
         slave_states[target_idx].emergency = register_map[1];
         slave_states[target_idx].node_type = register_map[2];
 
+        // Erfolg! Fehlerzähler zurücksetzen
+        polling_error_count = 0;
+
         target_idx++;
         if (target_idx >= slave_count) {
             current_state = AS_EVALUATE;
@@ -137,6 +144,9 @@ static void OnMasterComplete(void) {
         }
     }
     else if (current_state == AS_WAIT_TX) {
+        // Erfolg beim Schreiben!
+        polling_error_count = 0;
+
         target_idx++;
         if (target_idx >= slave_count) {
             current_state = AS_DELAY;
@@ -153,8 +163,8 @@ static void OnMasterError(Modbus_Error_t error) {
         discovery_waiting = false;
         discovery_current_id++;
         if (discovery_current_id > DISCOVERY_MAX_ID) {
-            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\n", slave_count);
-            ITM_Print(itm_buf);
+            snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\r\n", slave_count);
+            USB_Print(itm_buf);
             target_idx = 0;
             current_state = AS_DELAY;
             delay_tick = HAL_GetTick();
@@ -164,8 +174,24 @@ static void OnMasterError(Modbus_Error_t error) {
         return;
     }
 
-    /* --- Normalbetrieb: Fehler = Notaus --- */
-    current_state = AS_ERROR;
+    /* --- Normalbetrieb: Fehler-Diagnose --- */
+    const char *err_str = "UNKNOWN";
+    if (error == MB_ERROR_TIMEOUT) err_str = "TIMEOUT";
+    else if (error == MB_ERROR_CRC)    err_str = "CRC";
+    else if (error == MB_ERROR_EXCEPTION) err_str = "EXCEPTION";
+
+    snprintf(itm_buf, sizeof(itm_buf), "[ARBITER] Comm Error: %s in state %d (ID:%d) | Trial %d/3\r\n", err_str, current_state, active_slaves[target_idx], polling_error_count + 1);
+    USB_Print(itm_buf);
+
+    polling_error_count++;
+    if (polling_error_count >= MAX_POLLING_RETRIES) {
+        USB_Print("[ARBITER] CRITICAL: Too many consecutive errors. Triggering Safety Stop!\r\n");
+        current_state = AS_ERROR;
+    } else {
+        // Retry: Einfach in den Delay gehen und es nochmal versuchen
+        current_state = AS_DELAY;
+        delay_tick = HAL_GetTick();
+    }
 }
 
 /* ================================================================================== */
@@ -185,15 +211,15 @@ void Arbiter_Init(UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim) {
     discovery_current_id = 1;
     current_state = AS_DISCOVER;
 
-    ITM_Print("[ARBITER] System booting. Starting Auto-Discovery...\n");
+    USB_Print("[ARBITER] System booting. Starting Auto-Discovery...\r\n");
 }
 
 void Arbiter_SetGlobalRunState(bool run) {
     system_run_enabled = run;
     if (run) {
-        ITM_Print("[ARBITER] System ENABLED by operator.\n");
+        USB_Print("[ARBITER] System ENABLED by operator.\r\n");
     } else {
-        ITM_Print("[ARBITER] System DISABLED by operator (manual stop).\n");
+        USB_Print("[ARBITER] System DISABLED by operator (manual stop).\r\n");
     }
 }
 
@@ -233,14 +259,20 @@ void Arbiter_Process(void) {
             // Der normale Modbus-Timeout (1000ms) ist für Discovery zu langsam.
             // Wir managen hier einen eigenen, schnelleren Timeout.
             if (discovery_waiting && (HAL_GetTick() - discovery_send_tick > DISCOVERY_TIMEOUT_MS)) {
-                // Manuell abbrechen und weitermachen
+                // Manuell abbrechen und weitermachen, UART säubern!
+                if (hmodbus.huart != NULL) {
+                    HAL_UART_AbortReceive_IT(hmodbus.huart);
+                }
+                if (hmodbus.htim != NULL) {
+                    HAL_TIM_Base_Stop_IT(hmodbus.htim);
+                }
                 hmodbus.state = MB_STATE_IDLE;
                 hmodbus.frame_complete = false;
                 discovery_waiting = false;
                 discovery_current_id++;
                 if (discovery_current_id > DISCOVERY_MAX_ID) {
-                    snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\n", slave_count);
-                    ITM_Print(itm_buf);
+                    snprintf(itm_buf, sizeof(itm_buf), "[DISC] Complete. %d slaves found.\r\n", slave_count);
+                    USB_Print(itm_buf);
                     target_idx = 0;
                     current_state = AS_DELAY;
                     delay_tick = HAL_GetTick();
@@ -259,9 +291,10 @@ void Arbiter_Process(void) {
                 Modbus_Master_Request(&hmodbus, active_slaves[target_idx], MB_FC_READ_HOLDING_REGISTERS, REG_WUNSCH, 3);
                 current_state = AS_WAIT_RX;
             } else {
-                // Kein Slave gefunden, im Delay bleiben
-                current_state = AS_DELAY;
-                delay_tick = HAL_GetTick();
+                // Kein Slave am Bus gefunden! Starte Auto-Discovery komplett neu!
+                USB_Print("[ARBITER] 0 slaves. Retrying Auto-Discovery...\r\n");
+                discovery_current_id = 1;
+                current_state = AS_DISCOVER;
             }
             break;
 
@@ -309,26 +342,24 @@ void Arbiter_Process(void) {
                     global_allowed_mode = all_agree ? first : SYSTEM_MODE_STANDBY;
                 }
 
-                // --- ITM Dashboard Output ---
+                // --- USB Dashboard Output ---
                 const char *mode_str = "STANDBY";
                 if (global_allowed_mode == SYSTEM_MODE_CHARGE) mode_str = "CHARGE";
                 else if (global_allowed_mode == SYSTEM_MODE_DISCHARGE) mode_str = "DISCHARGE";
                 else if (global_allowed_mode == SYSTEM_MODE_WAKEUP) mode_str = "WAKEUP";
 
-                snprintf(itm_buf, sizeof(itm_buf),
+                char dashboard_buf[256];
+                int offset = 0;
+                offset += snprintf(dashboard_buf + offset, sizeof(dashboard_buf) - offset,
                     "[VOTE] Run:%s | Mode:%s | Slaves:%d",
-                    system_run_enabled ? "ON" : "OFF",
-                    mode_str,
-                    slave_count);
-                ITM_Print(itm_buf);
+                    system_run_enabled ? "ON" : "OFF", mode_str, slave_count);
 
-                // Slave-Details
                 for (uint8_t i = 0; i < slave_count; i++) {
                     const char *t = (slave_states[i].node_type == NODE_TYPE_INVERTER) ? "INV" : "DCDC";
-                    snprintf(itm_buf, sizeof(itm_buf), " | [%d]%s:W=%d", active_slaves[i], t, slave_states[i].wunsch);
-                    ITM_Print(itm_buf);
+                    offset += snprintf(dashboard_buf + offset, sizeof(dashboard_buf) - offset, " | [%d]%s:W=%d", active_slaves[i], t, slave_states[i].wunsch);
                 }
-                ITM_Print("\n");
+                snprintf(dashboard_buf + offset, sizeof(dashboard_buf) - offset, "\r\n");
+                USB_Print(dashboard_buf);
 
                 target_idx = 0;
                 current_state = AS_POLL_TX;
@@ -355,8 +386,8 @@ void Arbiter_Process(void) {
 
         case AS_ERROR:
             {
-                snprintf(itm_buf, sizeof(itm_buf), "[ERROR] Communication failure! Safety stop triggered.\n");
-                ITM_Print(itm_buf);
+                snprintf(itm_buf, sizeof(itm_buf), "[ERROR] Communication failure! Safety stop triggered.\r\n");
+                USB_Print(itm_buf);
 
                 HAL_Delay(50);
                 Modbus_Master_Request(&hmodbus, 0, MB_FC_WRITE_SINGLE_REGISTER, REG_SAFETY_STOP, 1);

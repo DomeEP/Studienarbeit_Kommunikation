@@ -49,9 +49,7 @@ void MX_USART2_UART_Init(void)
   huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
   huart2.Init.ClockPrescaler = UART_PRESCALER_DIV1;
   huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  /* DE-Zeitpuffer: 8 Samples (~0.5 Bit) bevor das Senden startet und danach warten.
-     Das verhindert, dass die Signale durch die Isolationsbarriere des ADM2587E "abgeschnitten" werden */
-  if (HAL_RS485Ex_Init(&huart2, UART_DE_POLARITY_HIGH, 8, 8) != HAL_OK)
+  if (HAL_RS485Ex_Init(&huart2, UART_DE_POLARITY_HIGH, 16, 16) != HAL_OK)
   {
     Error_Handler();
   }

@@ -12,8 +12,8 @@
   * However, the Modbus spec recommends a minimum of 1750 µs (1.75 ms) for
   * baud rates > 19200, which we use here.
   *
-  * Timer config: HSI = 16 MHz
-  *   Prescaler = 15  -> Timer clock = 16 MHz / (15+1) = 1 MHz (1 µs per tick)
+  * Timer config: SYSCLK = 96 MHz (PLL)
+  *   Prescaler = 95  -> Timer clock = 96 MHz / (95+1) = 1 MHz (1 µs per tick)
   *   Period    = 1749 -> Overflow after 1750 µs = 1.75 ms
   ******************************************************************************
   */
@@ -38,7 +38,7 @@ void MX_TIM6_Init(void)
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 15;
+  htim6.Init.Prescaler = 95;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim6.Init.Period = 1749;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

@@ -66,6 +66,17 @@ set(SOURCES
     Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c
     Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart.c
     Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_uart_ex.c
+    Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pcd.c
+    Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pcd_ex.c
+    Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_usb.c
+    USB_Device/App/usb_device.c
+    USB_Device/App/usbd_cdc_if.c
+    USB_Device/App/usbd_desc.c
+    USB_Device/Target/usbd_conf.c
+    Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c
+    Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
+    Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
+    Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
     startup_stm32g474xx.s
 )
 
@@ -95,6 +106,10 @@ set(INCLUDES
     Drivers/Modbus
     Drivers/SlaveNode
     Drivers/Arbiter
+    USB_Device/App
+    USB_Device/Target
+    Middlewares/ST/STM32_USB_Device_Library/Core/Inc
+    Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
