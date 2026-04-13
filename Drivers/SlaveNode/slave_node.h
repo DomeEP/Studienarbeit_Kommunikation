@@ -2,9 +2,34 @@
  * @file slave_node.h
  * @brief Plug-and-Play Treiber für Slave-Knoten (Inverter / DC-DC)
  * 
- * Diese Bibliothek kapselt die gesamte Modbus RTU Logik und bietet eine 
- * einfache Schnittstelle für die Fachgruppen, um Betriebsmodi anzufordern 
- * und auf Master-Befehle zu reagieren.
+ * === INTEGRATIONS-ANLEITUNG FÜR ANDERE GRUPPEN ===
+ * 
+ * 1. DATEIEN KOPIEREN:
+ *    Kopiere die Ordner `Drivers/Modbus` und `Drivers/SlaveNode` in dein Projekt.
+ * 
+ * 2. CUBE-MX EINSTELLUNGEN:
+ *    - RS485-Schnittstelle (Connectivity -> USARTx):
+ *       * Mode: "Asynchronous" wählen.
+ *       * RS485 Hardware Flow Control: "Enable" (wichtig für die DE-Pin Steuerung).
+ *       * Baudrate: 115200 Bits/s.
+ *       * NVIC Settings: "USARTx global interrupt" -> Enabled.
+ *    - Timer (Internal Timers -> TIMx, z.B. TIM6):
+ *       * Activated: Checkbox "Activated" (bzw. Internal Clock) wählen.
+ *       * Prescaler & Period: Beliebige Werte (der Treiber überschreibt diese automatisch).
+ *       * NVIC Settings: "TIMx global interrupt" -> Enabled.
+ *    - Interrupt-Prioritäten (System Core -> NVIC):
+ *       * Der TIMER-Interrupt MUSS eine höhere Priorität haben als der UART-Interrupt!
+ *       * Beispiel: TIMx = Prio 0, USARTx = Prio 1.
+ * 
+ * 3. INTERRUPTS VERBINDEN (in `stm32g4xx_it.c`):
+ *    Importiere das Modbus-Handle: `extern Modbus_Handle_t hmodbus;`
+ *    - In `USARTx_IRQHandler`: `Modbus_IRQHandler_RxCplt(&hmodbus);`
+ *    - In `TIMx_IRQHandler`:   `Modbus_IRQHandler_Timeout(&hmodbus);`
+ *    - In `USARTx_IRQHandler` (bei Error): `Modbus_IRQHandler_Error(&hmodbus);`
+ * 
+ * 4. INITIALISIERUNG (in `main.c`):
+ *    - `SlaveNode_Init(&huart2, &htim6, APP_SLAVE_ID, MyEmergencyCallback);`
+ *    - In der `while(1)`-Hauptschleife: `SlaveNode_Process();`
  */
 
 #ifndef SLAVE_NODE_H

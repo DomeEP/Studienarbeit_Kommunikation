@@ -87,6 +87,40 @@
  /*                                    CORE FUNCTIONS                                  */
  /* ================================================================================== */
  
+/**
+ * @brief Interner Helper: Kalibriert den Timer automatisch auf 1.75ms (T3.5)
+ * Berücksichtigt die aktuelle Systemfrequenz und den eingestellten Prescaler.
+ */
+static void Modbus_AutoConfigTimer(Modbus_Handle_t *hmodbus) {
+    if (hmodbus->htim == NULL || hmodbus->htim->Instance == NULL) return;
+
+    uint32_t apb_freq;
+    uint32_t tim_clock;
+
+    // 1. Bestimme ob der Timer an APB1 oder APB2 hängt
+    // TIM2,3,4,5,6,7 hängen an APB1. TIM1,8,15,16,17 an APB2.
+    if ((uint32_t)hmodbus->htim->Instance >= APB2PERIPH_BASE) {
+        apb_freq = HAL_RCC_GetPCLK2Freq();
+        // Auf STM32 ist die Timer-Frequenz 2x APB-Frequenz, außer der APB-Prescaler ist 1
+        if ((RCC->CFGR & RCC_CFGR_PPRE2) == RCC_CFGR_PPRE2_DIV1) tim_clock = apb_freq;
+        else tim_clock = 2 * apb_freq;
+    } else {
+        apb_freq = HAL_RCC_GetPCLK1Freq();
+        if ((RCC->CFGR & RCC_CFGR_PPRE1) == RCC_CFGR_PPRE1_DIV1) tim_clock = apb_freq;
+        else tim_clock = 2 * apb_freq;
+    }
+
+    // 2. Aktuellen Hardware-Prescaler auslesen
+    uint32_t psc = hmodbus->htim->Instance->PSC;
+    uint32_t ticks_per_sec = tim_clock / (psc + 1);
+
+    // 3. ARR berechnen für 1.75ms (1750µs)
+    if (ticks_per_sec > 0) {
+        uint32_t arr = (uint32_t)((uint64_t)ticks_per_sec * 1750 / 1000000) - 1;
+        hmodbus->htim->Instance->ARR = arr;
+    }
+}
+
  void Modbus_Init(Modbus_Handle_t *hmodbus, UART_HandleTypeDef *huart, TIM_HandleTypeDef *htim, uint8_t slave_id) {
      memset(hmodbus, 0, sizeof(Modbus_Handle_t));
      hmodbus->huart = huart;
@@ -94,6 +128,11 @@
      hmodbus->slave_id = slave_id;
      hmodbus->state = MB_STATE_IDLE;
      
+     // Timer für T3.5 automatisch kalibrieren (nur für Slaves relevant)
+     if (slave_id != 0) {
+         Modbus_AutoConfigTimer(hmodbus);
+     }
+ 
      // Ersten Empfang starten
      Modbus_Restart_RX(hmodbus);
  }
