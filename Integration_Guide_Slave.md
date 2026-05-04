@@ -1,127 +1,167 @@
-# T3100 Modbus RTU – Integrations-Anleitung (Slave)
+# T3200 Modbus RTU – Integrations-Anleitung (Slave)
 
-Diese Anleitung beschreibt, wie du den Modbus-Kommunikations-Stack in dein STM32G4-Projekt integrierst, um als Slave-Knoten (Inverter oder DC/DC-Stufe) am Gesamt-System teilzunehmen.
+Diese Anleitung beschreibt, wie der Modbus-Kommunikations-Stack in ein bestehendes STM32G4-Projekt integriert wird, um als Slave-Knoten (Inverter oder DC/DC-Stufe) am Microgrid teilzunehmen.
 
 ---
 
 ## 1. Dateien kopieren
-Kopiere die folgenden Verzeichnisse aus diesem Projekt in dein eigenes Projektverzeichnis (meistens unter `Drivers/`):
 
-*   `Drivers/Modbus/` (Enthält das core Modbus-Protokoll)
-*   `Drivers/SlaveNode/` (Enthält die vereinfachte API für Fachgruppen)
+Folgende Verzeichnisse in das eigene Projekt übernehmen (typischerweise unter `Drivers/`):
+
+*   `Drivers/Modbus/` – Protokoll-Kern (modbus_rtu.h/.c)
+*   `Drivers/SlaveNode/` – High-Level API (slave_node.h/.c)
+
+Zusätzlich die zentrale Konfigurationsdatei `Core/Inc/app_config.h` kopieren und an das eigene Projekt anpassen.
 
 ---
 
 ## 2. Hardware-Konfiguration (STM32CubeMX)
 
-Der Modbus-Stack benötigt einen UART für die physikalische Übertragung und einen Timer für die Rahmenerkennung.
-
-### RS485-Schnittstelle (Connectivity -> USARTx)
+### RS485-Schnittstelle (Connectivity → USARTx)
 1.  **Mode**: `Asynchronous`
-2.  **Hardware Flow Control (RS485)**: `Enable` (**WICHTIG!** Steuert den DE-Pin des Transceivers)
+2.  **Hardware Flow Control (RS485)**: `Enable` – steuert den DE-Pin des ADM2587E
 3.  **Baudrate**: `115200` Bits/s
-4.  **Word Length**: `8 Bits`
-5.  **Stop Bits**: `1`
-6.  **NVIC Settings**: Aktiviere den `USARTx global interrupt`.
+4.  **Word Length**: `8 Bits`, **Stop Bits**: `1`
+5.  **NVIC Settings**: `USARTx global interrupt` aktivieren
 
-### Zeitgeber (Internal Timers -> TIMx, z.B. TIM6)
-1.  **Activated**: Checkbox oder `Internal Clock` wählen.
-2.  **Konfiguration**: Die Werte für Prescaler und Period sind egal, da der Treiber den Timer beim Start automatisch auf die korrekte Modbus-Zeit (1,75 ms) kalibriert.
-3.  **NVIC Settings**: Aktiviere den `TIMx global interrupt`.
+### Zeitgeber für Rahmenerkennung (Timers → TIMx, z.B. TIM6)
+1.  `Internal Clock` aktivieren
+2.  Prescaler und Period können beliebig gesetzt werden – der Treiber kalibriert den Timer beim Start automatisch auf 1,75 ms (Modbus T3.5)
+3.  **NVIC Settings**: `TIMx global interrupt` aktivieren
 
-### Interrupt-Prioritäten (System Core -> NVIC)
-Damit das Timing exakt eingehalten wird, müssen die Prioritäten korrekt gesetzt sein:
-*   **TIMx global interrupt**: Priorität **0** (höchste)
-*   **USARTx global interrupt**: Priorität **1** (oder niedriger als der Timer)
+### Interrupt-Prioritäten (System Core → NVIC)
+Die Timer-Priorität muss höher sein als die UART-Priorität:
+
+| Interrupt              | Priorität |
+|------------------------|-----------|
+| TIMx global interrupt  | 0         |
+| USARTx global interrupt| 1         |
 
 ---
 
 ## 3. Code-Integration
 
 ### 3.1 Interrupts verbinden (`stm32g4xx_it.c`)
-Du musst die Interrupt-Handler in der Datei `stm32g4xx_it.c` mit dem Treiber verknüpfen.
 
 ```c
-/* Header-Bereich */
+/* --- Includes --- */
 #include "modbus_rtu.h"
-extern Modbus_Handle_t hmodbus; // Das Handle wird im SlaveNode-Treiber deklariert
+extern Modbus_Handle_t hmodbus;
 
-/* In der USARTx_IRQHandler Funktion */
+/* --- USART Interrupt --- */
 void USART2_IRQHandler(void) {
-  Modbus_IRQHandler_RxCplt(&hmodbus);
-  // Falls CubeMX eigenen Code generiert hat, diesen nach den Modbus-Aufrufen lassen
+    HAL_UART_IRQHandler(&huart2);
 }
 
-/* In der TIMx_IRQHandler Funktion */
+/* --- Timer Interrupt --- */
 void TIM6_DAC_IRQHandler(void) {
-  Modbus_IRQHandler_Timeout(&hmodbus);
-  HAL_TIM_IRQHandler(&htim6); // Standard HAL Aufruf
+    HAL_TIM_IRQHandler(&htim6);
+}
+
+/* --- HAL Callbacks (am Ende der Datei) --- */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART2) {
+        Modbus_IRQHandler_RxCplt(&hmodbus);
+    }
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim->Instance == TIM6) {
+        Modbus_IRQHandler_Timeout(&hmodbus);
+    }
+}
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+    if (huart->Instance == USART2) {
+        Modbus_IRQHandler_Error(&hmodbus);
+    }
 }
 ```
 
 ### 3.2 Initialisierung (`main.c`)
-In deiner `main.c` startest du die Kommunikation:
 
 ```c
-/* Header */
 #include "slave_node.h"
 
-/* Vor der main-Schleife */
-// Die ID muss eindeutig sein: 1=Inverter, 2=DCDC_1, 3=DCDC_2, etc.
-SlaveNode_Init(&huart2, &htim6, 2, NULL); 
-SlaveNode_SetNodeType(NODE_TYPE_DCDC); // Deinen Knotentyp festlegen
+/* Optional: Callback bei Master-Notaus */
+void OnEmergency(void) {
+    // Leistungselektronik trennen, LED aus, etc.
+}
 
-/* In der while(1) Schleife */
-while (1) {
-    SlaveNode_Process(); // Hält den Stack am Leben
-    
-    // Dein Applikationscode...
+int main(void) {
+    /* ... HAL_Init, Clock, Peripherie ... */
+
+    /* Kommunikation starten.
+     * ID muss pro Knoten eindeutig sein: 1=Inverter, 2=DCDC_1, 3=DCDC_2, ...
+     */
+    SlaveNode_Init(&huart2, &htim6, 2, OnEmergency);
+    SlaveNode_SetNodeType(NODE_TYPE_DCDC);
+
+    while (1) {
+        SlaveNode_Process();   // Modbus-Stack antreiben
+
+        // --- Eigene Applikationslogik ---
+    }
 }
 ```
 
 ---
 
-## 4. Verwendung der API
+## 4. API-Referenz
 
-Der Treiber kapselt die Modbus-Register, damit du dich nicht um Register-Adressen kümmern musst.
-
-### Wunsch äußern
-Teile dem Master mit, in welchen Modus du gerne gehen würdest (z.B. basierend auf einem Tastendruck oder Sensorsignal).
+### Wunschmodus setzen
 ```c
 SlaveNode_SetDesiredMode(SYSTEM_MODE_CHARGE);
 ```
 
-### Erlaubnis prüfen (**WICHTIG!**)
-Deine Hardware darf nur schalten, wenn der Master die Erlaubnis dazu gibt. Prüfe dies zyklisch:
+### Master-Erlaubnis prüfen
+Die eigene Hardware darf ausschließlich auf Basis der Master-Erlaubnis schalten:
 ```c
 uint16_t allowed = SlaveNode_GetAllowedMode();
 
 if (allowed == SYSTEM_MODE_CHARGE) {
-    // Schütze schließen, Strom regeln...
+    // Schütze schließen, Strom regeln
 } else {
-    // Alles sicher trennen / Standby
+    // Standby, alles sicher trennen
 }
 ```
 
 ### Notaus melden
-Falls deine Stufe einen kritischen Fehler erkennt (z.B. Übertemperatur oder Überstrom), setzt du das Emergency-Flag. Der Master wird daraufhin das gesamte System abschalten.
+Bei kritischen Fehlern (Übertemperatur, Überstrom) setzt das Emergency-Flag den gesamten Bus in den Standby:
 ```c
 SlaveNode_SetEmergencyFlag(true);
 ```
 
 ---
 
-## 5. Modbus Register Map (Referenz)
+## 5. Modbus Register Map
 
-Falls du manuell auf Register zugreifen willst (nur für Fortgeschrittene):
+| Adresse | Richtung       | Name              | Beschreibung                                      |
+|---------|----------------|-------------------|---------------------------------------------------|
+| 0       | Slave → Master | `REG_WUNSCH`      | Lokaler Wunschmodus (0=Standby, 1=Charge, 2=Disch.) |
+| 1       | Slave → Master | `REG_EMERGENCY`   | Fehler-Flag (0=OK, 1=Kritisch)                    |
+| 2       | Slave → Master | `REG_NODE_TYPE`   | Hardware-Typ (1=Inverter, 2=DC/DC)                |
+| 10      | Master → Slave | `REG_ERLAUBNIS`   | Vom Master genehmigter Betriebsmodus               |
+| 11      | Master → Slave | `REG_SAFETY_STOP` | Systemweiter Notstopp-Befehl                       |
 
-| Adresse | Typ | Name | Beschreibung |
-| :--- | :--- | :--- | :--- |
-| **0** | R | `REG_WUNSCH` | Dein lokaler Wunschmodus (0=Standby, 1=Charge, 2=Disch.) |
-| **1** | R | `REG_EMERGENCY`| Dein lokales Fehler-Flag (0=OK, 1=Kritischer Fehler) |
-| **2** | R | `REG_NODE_TYPE`| Typ deiner Hardware (1=Inverter, 2=DC/DC) |
-| **10** | W | `REG_ERLAUBNIS`| Vom Master genehmigter Modus (0, 1, 2) |
-| **11** | W | `REG_SAFETY_STOP`| Systemweiter Notstopp-Befehl vom Master |
+---
 
-> [!TIP]
-> **Tipp für Debugging**: In der Struktur `hmodbus.stats` findest du Zähler für empfangene Frames und Fehler. Das hilft bei der Fehlersuche am RS485-Bus.
+## 6. Build (falls das Gesamtprojekt gebaut wird)
+
+```bash
+# Slave-Firmware
+cmake -B build_slave -DBOARD_ROLE=slave -DUSE_MODBUS=ON --preset default
+cmake --build build_slave
+
+# Master-Firmware
+cmake -B build_master -DBOARD_ROLE=master -DUSE_MODBUS=ON --preset default
+cmake --build build_master
+```
+
+---
+
+## 7. Debugging-Tipps
+
+- Die Struktur `hmodbus.stats` enthält Zähler für empfangene Frames (`rx_frames`), CRC-Fehler (`crc_errors`) und Timeouts – hilfreich bei Bus-Problemen.
+- Die Master-Telemetrie kann über USB (virtueller COM-Port, 115200 Baud) in PuTTY mitgelesen werden.
+- Falls der Bus nicht reagiert: Prüfen ob 12 V an J1 anliegen (ADM2587E-Versorgung).

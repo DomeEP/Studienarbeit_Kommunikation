@@ -1,104 +1,71 @@
 /**
-  ******************************************************************************
-  * @file    app_config.h
-  * @brief   Zentrale Konfiguration für die Studienarbeit Kommunikation
-  ******************************************************************************
-  * @details
-  * Diese Datei enthält ALLE anpassbaren Parameter der Firmware an einem Ort.
-  * Beim Erweitern des Systems (neue Register, neue Slaves, andere Baudraten)
-  * muss nur diese Datei geändert werden.
-  *
-  * HARDWARE-ÜBERSICHT (laut Schaltplan):
-  * ┌─────────────────────────────────────────────────────────┐
-  * │  WeActStudio STM32G474 CoreBoard                        │
-  * │                                                         │
-  * │  Interne Peripherie:                                    │
-  * │    PC13  = BTN_intern  (User-Button, Active-LOW)        │
-  * │    PC6   = LED_intern  (Onboard-LED)                    │
-  * │                                                         │
-  * │  Externe Peripherie (auf Masterboard-PCB):              │
-  * │    PB6   = LED1        (Externe Status-LED)             │
-  * │    PB7   = LED2        (Externe Status-LED)             │
-  * │    PB9   = BTN         (Externer Button)                │
-  * │                                                         │
-  * │  RS485 (ADM2587E Transceiver):                          │
-  * │    PA1   = USART2_DE   (Driver Enable, Active-HIGH)     │
-  * │    PA2   = USART2_TX   (Transmit Data)                  │
-  * │    PA3   = USART2_RX   (Receive Data)                   │
-  * │                                                         │
-  * │  I2C (für Sensoren/Displays):                           │
-  * │    PA8   = I2C2_SDA    (Datenleitung)                   │
-  * │    PA9   = I2C2_SCL    (Taktleitung)                    │
-  * │                                                         │
-  * │  Stromversorgung:                                       │
-  * │    USB-C       → 5V/3.3V für STM32 + ADM2587E Logik    │
-  * │    J1 (12V)    → TBA1-1211 DC-DC → 5V isoliert          │
-  * │                  → ADM2587E VISOIN (RS485 Busseite)     │
-  * │    HINWEIS: Ohne 12V an J1 ist der RS485-Bus tot!       │
-  * └─────────────────────────────────────────────────────────┘
-  ******************************************************************************
-  */
+ * @file app_config.h
+ * @brief Central configuration for the T3200 communication firmware
+ *
+ * All adjustable parameters in one place. When extending the system
+ * (new registers, additional slaves, different baud rates), only this
+ * file needs to be modified.
+ *
+ * Hardware overview (from schematic):
+ *
+ *   WeActStudio STM32G474 CoreBoard
+ *
+ *   On-board:
+ *     PC13 = BTN_intern  (user button, active-LOW)
+ *     PC6  = LED_intern  (on-board LED)
+ *
+ *   External (master PCB):
+ *     PB6  = LED1, PB7 = LED2, PB9 = BTN
+ *
+ *   RS485 (ADM2587E):
+ *     PA1 = USART2_DE (driver enable)
+ *     PA2 = USART2_TX, PA3 = USART2_RX
+ *
+ *   I2C (expansion):
+ *     PA8 = I2C2_SDA, PA9 = I2C2_SCL
+ *
+ *   Power:
+ *     USB-C  -> 5V/3.3V for STM32 + ADM2587E logic side
+ *     J1 12V -> TBA1-1211 DC-DC -> isolated 5V for ADM2587E bus side
+ *     NOTE: RS485 bus is dead without 12V on J1
+ */
 
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
-/* ============================================================================
- *  MODBUS KONFIGURATION
- * ============================================================================ */
-
-/** @brief Modbus Slave-Adresse dieses Geräts (nur relevant im Slave-Modus)
- *  Gültiger Bereich: 1-247. Adresse 0 = Broadcast (alle Slaves). */
+/* Modbus slave address (only relevant in slave mode, range 1-247) */
 #define APP_SLAVE_ID              1
 
-/** @brief RS485 Baudrate (muss auf allen Teilnehmern gleich sein!)
- *  Übliche Werte: 9600, 19200, 38400, 57600, 115200 */
+/* RS485 baud rate (must match on all bus participants) */
 #define APP_BAUDRATE              115200
 
-/** @brief Timeout für Slave-Antwort in Millisekunden (Master-Modus)
- *  Wenn der Slave nicht innerhalb dieser Zeit antwortet, gilt die
- *  Anfrage als fehlgeschlagen. */
+/* Master response timeout in ms */
 #define APP_RESPONSE_TIMEOUT_MS   1000
 
-/* ============================================================================
- *  REGISTER-MAP DEFINITION (T3100)
- * ============================================================================
- *
- * Die Registernamen (REG_WUNSCH, REG_ERLAUBNIS etc.) sind jetzt in 
- * modbus_rtu.h definiert.
- */
-
+/* Total register map size */
 #define APP_REGISTER_MAP_SIZE     20
 
-/* ============================================================================
- *  TIMING KONFIGURATION
- * ============================================================================ */
-
-/** @brief Heartbeat-Intervall in Millisekunden (LED blinkt mit dieser Rate) */
+/* LED heartbeat interval in ms */
 #define APP_HEARTBEAT_INTERVAL_MS 500
 
-/** @brief Entprellzeit für Buttons in Millisekunden */
+/* Button debounce delay in ms */
 #define APP_DEBOUNCE_DELAY_MS     50
 
-/* ============================================================================
- *  ERWEITERUNGS-HINWEISE
- * ============================================================================
+/*
+ * Extension notes:
  *
- * 1. NEUEN SLAVE HINZUFÜGEN:
- *    - Neue Slave-ID in APP_SLAVE_ID ändern (jeder Slave braucht eine eigene!)
- *    - Im Master-Code die Ziel-ID beim Senden anpassen
+ * 1. Add a new slave:
+ *    - Change APP_SLAVE_ID (each slave needs a unique address)
+ *    - Update master code to target the new ID
  *
- * 2. NEUES REGISTER HINZUFÜGEN:
- *    - APP_REGISTER_MAP_SIZE erhöhen
- *    - Neues #define REG_xxx mit der nächsten Adresse anlegen
- *    - In main_slave.c → App_Slave_OnRegisterWrite() die Logik ergänzen
+ * 2. Add a new register:
+ *    - Increase APP_REGISTER_MAP_SIZE
+ *    - Define REG_xxx in modbus_rtu.h
+ *    - Handle the new register in the slave write callback
  *
- * 3. SENSORDATEN SENDEN:
- *    - Im Slave: Sensorwert in ein Register schreiben (z.B. register_map[REG_xxx] = wert)
- *    - Im Master: Mit Modbus_Master_Request(FC03, REG_xxx, 1) das Register auslesen
- *
- * 4. MEHRERE SLAVES:
- *    - Jeder Slave bekommt eine eigene ID (1, 2, 3, ...)
- *    - Der Master adressiert jeden einzeln über den slave_id Parameter
+ * 3. Send sensor data:
+ *    - Slave: write value to register_map[REG_xxx]
+ *    - Master: read it via Modbus_Master_Request(FC03, REG_xxx, 1)
  */
 
 #endif /* APP_CONFIG_H */

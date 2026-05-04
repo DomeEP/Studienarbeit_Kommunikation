@@ -1,7 +1,11 @@
 /**
-  * @file    main_slave.c (SLAVE - T3100 VOTING NODE)
-  * @brief   Modbus-Slave mit Wunsch-Voting und Erlaubnis-LED-Feedback
-  */
+ * @file main_slave.c
+ * @brief Slave firmware entry point (node)
+ *
+ * Demonstrates SlaveNode driver integration.
+ * Button (PC13) cycles through desired modes,
+ * LED reflects the master-granted operating state.
+ */
 #include "main.h"
 #include "i2c.h"
 #include "usart.h"
@@ -12,15 +16,11 @@
 #include "app_config.h"
 #include "slave_node.h"
 
-
-/* --- Button State --- */
 uint32_t last_btn_tick = 0;
 
 void SystemClock_Config(void);
 
-/* Optional: Eigener Callback, falls der Master NOTAUS drückt */
 void OnSystemEmergency(void) {
-    // LED ausmachen, Leistungselektronik trennen
     HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
 }
 
@@ -33,18 +33,16 @@ int main(void)
   MX_USART2_UART_Init();
   MX_TIM6_Init();
 
-  /* UART Interrupts aktivieren */
   HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
 
-  /* PULLDOWN für den Button auf PC13 */
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   GPIO_InitStruct.Pin = BTN_intern_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(BTN_intern_GPIO_Port, &GPIO_InitStruct);
 
-  /* Boot-Blinken */
+  /* Boot blink */
   for(int i=0; i<3; i++) {
       HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
       HAL_Delay(100);
@@ -52,13 +50,7 @@ int main(void)
       HAL_Delay(100);
   }
 
-  /* -------------------------------------------------------------------
-   *   SLAVE NODE INITIALISIERUNG
-   * ------------------------------------------------------------------- */
-  // Initialisiert die gesamte Kommunikation als Knoten mit ID 1
   SlaveNode_Init(&huart2, &htim6, APP_SLAVE_ID, OnSystemEmergency);
-
-  // Deklariere diese Platine als Inverter (Master des DC-Microgrids)
   SlaveNode_SetNodeType(NODE_TYPE_INVERTER);
 
   uint32_t led_blink_tick = 0;
@@ -70,34 +62,27 @@ int main(void)
 
   while (1)
   {
-    /* 1. KNOTEN-KOMMUNIKATION AM LEBEN HALTEN */
     SlaveNode_Process();
 
-    /* 2. SENSORIK AUSWERTEN & WUNSCH ÄUßERN */
+    /* Button: cycle through Standby -> Charge -> Discharge */
     GPIO_PinState current = HAL_GPIO_ReadPin(BTN_intern_GPIO_Port, BTN_intern_Pin);
     if (current == GPIO_PIN_SET && (HAL_GetTick() - last_btn_tick > 300)) {
         last_btn_tick = HAL_GetTick();
 
-        // Zyklisch durchschalten: Standby -> Charge -> Discharge -> Standby
         mein_wunsch++;
-        // WAKEUP Modus (3) überspringen, da dieser nur vom Master kommt
         if (mein_wunsch >= SYSTEM_MODE_WAKEUP) mein_wunsch = SYSTEM_MODE_STANDBY;
-        
-        // Dem Treiber unseren physikalischen Wunsch übergeben!
         SlaveNode_SetDesiredMode(mein_wunsch);
     }
 
-    /* 3. HARDWARE BASIEREND AUF DER MASTER-ERLAUBNIS STEUERN */
+    /* React to master-granted mode */
     uint16_t erlaubnis = SlaveNode_ConsumeAllowedMode();
 
     if (erlaubnis == SYSTEM_MODE_WAKEUP) {
-        // Start non-blocking blink sequence (3x toggeln = 6 Zustandswechsel)
         slave_wakeup_blinks = 6;
         wakeup_tick = HAL_GetTick();
         HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
     }
-    
-    // Wakeup Blink Sequenz Priorität
+
     if (slave_wakeup_blinks > 0) {
         if (HAL_GetTick() - wakeup_tick > 100) {
             wakeup_tick = HAL_GetTick();
@@ -105,15 +90,14 @@ int main(void)
             HAL_GPIO_TogglePin(LED_intern_GPIO_Port, LED_intern_Pin);
         }
     } else {
-        // Normale Auswertung
-        uint16_t aktueller_mode = SlaveNode_GetAllowedMode(); // gibt nur noch echten Mode zurück
-        
+        uint16_t aktueller_mode = SlaveNode_GetAllowedMode();
+
         if (aktueller_mode == SYSTEM_MODE_STANDBY) {
             HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
-        } 
+        }
         else if (aktueller_mode == SYSTEM_MODE_CHARGE) {
             HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
-        } 
+        }
         else if (aktueller_mode == SYSTEM_MODE_DISCHARGE) {
             if (HAL_GetTick() - led_blink_tick > 200) {
                 led_blink_tick = HAL_GetTick();
@@ -127,17 +111,32 @@ int main(void)
 
 void SystemClock_Config(void)
 {
-  RCC_OscInitTypeDef o = {0}; RCC_ClkInitTypeDef c = {0};
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
-  o.OscillatorType = RCC_OSCILLATORTYPE_HSI; o.HSIState = RCC_HSI_ON;
-  o.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT; o.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&o) != HAL_OK) { Error_Handler(); }
-  c.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  c.SYSCLKSource = RCC_SYSCLKSOURCE_HSI; c.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  c.APB1CLKDivider = RCC_HCLK_DIV1; c.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&c, FLASH_LATENCY_0) != HAL_OK) { Error_Handler(); }
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+    HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
+        Error_Handler();
+    }
+
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
+                                | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) {
+        Error_Handler();
+    }
 }
-void Error_Handler(void) { __disable_irq(); while(1){} }
+
+void Error_Handler(void) { __disable_irq(); while (1) {} }
+
 #ifdef USE_FULL_ASSERT
-void assert_failed(uint8_t *f, uint32_t l) { (void)f;(void)l; }
+void assert_failed(uint8_t *f, uint32_t l) { (void)f; (void)l; }
 #endif

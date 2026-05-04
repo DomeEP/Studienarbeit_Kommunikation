@@ -239,7 +239,7 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /**
-  * @brief  Rx Transfer completed callback (called by HAL on character received)
+  * @brief  Rx complete callback: forward to Modbus driver
   */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -250,7 +250,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 }
 
 /**
-  * @brief  Period elapsed callback (called by HAL when TIM6 overflows = T3.5)
+  * @brief  Timer elapsed callback: T3.5 frame boundary detected
   */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -260,7 +260,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
 }
 /**
-  * @brief  UART error callback (e.g. Overrun, Noise, Framing errors)
+  * @brief  UART error callback: clear flags and restart RX
   */
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {

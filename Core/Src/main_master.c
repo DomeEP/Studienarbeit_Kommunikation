@@ -1,7 +1,7 @@
 /**
-  * @file    main_master.c (MASTER - MULTI NODE ARBITER)
-  * @brief   System-Master für das T3200 Projekt
-  */
+ * @file main_master.c
+ * @brief Master firmware entry point (Arbiter)
+ */
 #include "main.h"
 #include "i2c.h"
 #include "usart.h"
@@ -28,18 +28,16 @@ int main(void)
   MX_USB_Device_Init();
   MX_TIM6_Init();
 
-  /* UART Interrupts an */
   HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
 
-  /* PULLDOWN für den Master-Button konfigurieren */
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   GPIO_InitStruct.Pin = BTN_intern_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(BTN_intern_GPIO_Port, &GPIO_InitStruct);
 
-  /* Boot Sequenz */
+  /* Boot blink sequence */
   for(int i=0; i<3; i++) {
       HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
       HAL_Delay(100);
@@ -47,13 +45,7 @@ int main(void)
       HAL_Delay(100);
   }
 
-  /* -------------------------------------------------------------------
-   *   SYSTEM ARBITER INITIALISIERUNG
-   * ------------------------------------------------------------------- */
-  // Der Arbiter sucht sich seine Slaves nun vollautomatisch beim Hochfahren!
   Arbiter_Init(&huart2, &htim6);
-
-  // System startet im deaktivierten Notaus-Zustand!
   Arbiter_SetGlobalRunState(false);
 
   uint8_t master_wakeup_blinks = 0;
@@ -61,27 +53,25 @@ int main(void)
 
   while (1)
   {
-      /* 1. ARBITER ENGINE AM LEBEN HALTEN (Polling & Voting) */
       Arbiter_Process();
 
-      /* 2. MASTER BUTTON ABFRAGEN (Toggle System ON/OFF) */
+      /* Button: toggle system on/off */
       GPIO_PinState btn_state = HAL_GPIO_ReadPin(BTN_intern_GPIO_Port, BTN_intern_Pin);
       if (btn_state == GPIO_PIN_SET && (HAL_GetTick() - last_btn_tick > 500)) {
           last_btn_tick = HAL_GetTick();
-          
+
           bool current_run_state = Arbiter_GetGlobalRunState();
-          
+
           if (!current_run_state) {
-              // Master fordert für einen Zyklus WAKEUP an alle Slaves an
               Arbiter_TriggerWakeup();
               master_wakeup_blinks = 6;
               wakeup_tick = HAL_GetTick();
               HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_SET);
           }
-          Arbiter_SetGlobalRunState(!current_run_state); // Toggeln
+          Arbiter_SetGlobalRunState(!current_run_state);
       }
 
-      /* 3. DIAGNOSE LED AUF DEM MASTER BOARD */
+      /* Diagnostic LED */
       if (master_wakeup_blinks > 0) {
           if (HAL_GetTick() - wakeup_tick > 100) {
               wakeup_tick = HAL_GetTick();
@@ -89,9 +79,7 @@ int main(void)
               HAL_GPIO_TogglePin(LED_intern_GPIO_Port, LED_intern_Pin);
           }
       } else {
-          // Zeigt immer den Zustand an, den der Master gerade für ALLE orchestriert
           if (!Arbiter_GetGlobalRunState()) {
-              // System ist manuell deaktiviert (Rote/Aus LED)
               HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
           } else {
               uint16_t status = Arbiter_GetSystemMode();
@@ -103,7 +91,7 @@ int main(void)
                       led_state = !led_state;
                       HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, led_state ? GPIO_PIN_SET : GPIO_PIN_RESET);
                   }
-              } else { // STANDBY 
+              } else {
                   HAL_GPIO_WritePin(LED_intern_GPIO_Port, LED_intern_Pin, GPIO_PIN_RESET);
               }
           }
@@ -135,7 +123,7 @@ void SystemClock_Config(void)
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK; // PLL source!
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
@@ -145,7 +133,9 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-void Error_Handler(void) { __disable_irq(); while(1){} }
+
+void Error_Handler(void) { __disable_irq(); while (1) {} }
+
 #ifdef USE_FULL_ASSERT
-void assert_failed(uint8_t *f, uint32_t l) { (void)f;(void)l; }
+void assert_failed(uint8_t *f, uint32_t l) { (void)f; (void)l; }
 #endif

@@ -1,3 +1,22 @@
-build
+# Build-Artefakte
+build/
+build_master/
+build_slave/
+*.bin
+*.hex
+*.elf
+*.map
+*.o
+*.d
+
+# Logs
+build.log
+build.txt
+
+# CubeMX Scratch
 mx.scratch
-!.settings
+
+# IDE
+.vscode/
+.settings/
+*.launch
